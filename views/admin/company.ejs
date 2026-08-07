@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'ข้อมูลบริษัท'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'ข้อมูลบริษัท'}) %>
+
+  <% if (saved) { %><div class="ok-note"><iconify-icon icon="mdi:check-circle-outline"></iconify-icon> บันทึกข้อมูลบริษัทเรียบร้อยแล้ว</div><% } %>
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:office-building-outline"></iconify-icon> ข้อมูลบริษัท</h3></div>
+    <form class="pb" method="post" action="/admin/company" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="fgrid">
+        <div class="fld full"><label>โลโก้บริษัท</label>
+          <% if (c.logo) { %><img src="<%= c.logo %>" alt="โลโก้" style="height:56px;margin-bottom:8px"><% } %>
+          <input type="file" name="logo" accept="image/*">
+          <div class="hint">อัปโหลดไฟล์ PNG/SVG/JPG (เว้นว่างถ้าไม่เปลี่ยน)</div>
+        </div>
+        <div class="fld full"><label>ชื่อบริษัท</label><input name="name" value="<%= c.name %>" required></div>
+        <div class="fld"><label>เลขประจำตัวผู้เสียภาษี</label><input name="tax_id" value="<%= c.tax_id %>"></div>
+        <div class="fld"><label>เบอร์โทร</label><input name="phone" value="<%= c.phone %>"></div>
+        <div class="fld full"><label>ที่อยู่</label><input name="address" value="<%= c.address %>"></div>
+        <div class="fld"><label>Email</label><input name="email" value="<%= c.email %>"></div>
+        <div class="fld"><label>Facebook (URL)</label><input name="facebook" value="<%= c.facebook %>"></div>
+        <div class="fld"><label>Line OA</label><input name="line" value="<%= c.line %>"></div>
+        <div class="fld"><label>Google Maps (ลิงก์แม่นยำ — ไม่บังคับ)</label><input name="maps_url" value="<%= c.maps_url %>"><div class="hint"><b>ไม่ต้องกรอกก็ได้</b> ระบบสร้างแผนที่จาก "ที่อยู่" ด้านบนให้อัตโนมัติอยู่แล้ว — กรอกช่องนี้เฉพาะถ้าอยากปักหมุดตำแหน่งให้แม่นยำกว่าที่อยู่ตัวหนังสือ (เปิด Google Maps <iconify-icon icon="mdi:arrow-right"></iconify-icon> ค้นหาตำแหน่งจริง <iconify-icon icon="mdi:arrow-right"></iconify-icon> แชร์ <iconify-icon icon="mdi:arrow-right"></iconify-icon> ฝังแผนที่ <iconify-icon icon="mdi:arrow-right"></iconify-icon> คัดลอกเฉพาะลิงก์ใน src="..."</div></div>
+        <div class="fld full"><label>ประวัติบริษัท</label><textarea name="history"><%= c.history %></textarea></div>
+        <div class="fld"><label>วิสัยทัศน์ (Vision)</label><textarea name="vision"><%= c.vision %></textarea></div>
+        <div class="fld"><label>พันธกิจ (Mission)</label><textarea name="mission"><%= c.mission %></textarea></div>
+      </div>
+      <button class="btn nv" style="margin-top:16px">บันทึกข้อมูล</button>
+    </form>
+  </div>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

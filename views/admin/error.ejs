@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= title %> — Yuyenpensuk CMS</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" async></script>
+<style>iconify-icon{display:inline-block;vertical-align:-.15em}</style>
+</head>
+<body>
+<div class="auth2">
+  <div class="side">
+    <div class="mk2"><iconify-icon icon="mdi:alert-outline"></iconify-icon></div>
+    <h1><%= title %></h1>
+    <p><%= message %></p>
+  </div>
+  <div class="form">
+    <div class="fcard" style="text-align:center">
+      <h2 style="margin-bottom:20px"><iconify-icon icon="mdi:emoticon-sad-outline" style="font-size:40px;color:var(--mut)"></iconify-icon></h2>
+      <a class="btn nv" href="/admin" style="width:100%;justify-content:center;margin-bottom:10px"><iconify-icon icon="mdi:view-dashboard-outline"></iconify-icon> กลับหน้าแดชบอร์ด</a>
+      <a class="back" href="javascript:history.back()"><iconify-icon icon="mdi:arrow-left"></iconify-icon> ย้อนกลับไปหน้าก่อนหน้า</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

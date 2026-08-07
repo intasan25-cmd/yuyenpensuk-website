@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'การชำระเงิน'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'การชำระเงิน'}) %>
+
+  <% if (saved) { %><div class="ok-note"><iconify-icon icon="mdi:check-circle-outline"></iconify-icon> บันทึกข้อมูลการชำระเงินเรียบร้อยแล้ว</div><% } %>
+
+  <form class="pb" method="post" action="/admin/payment"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="panel">
+      <div class="ph2"><h3><iconify-icon icon="mdi:credit-card-outline"></iconify-icon> ช่องทางการชำระเงิน</h3></div>
+      <div class="fgrid">
+        <div class="fld full">
+          <label>หนึ่งบรรทัดต่อหนึ่งช่องทาง คั่นด้วย " | " (4 คอลัมน์: เลขลำดับ | ไอคอน Iconify | หัวข้อ | รายละเอียด)</label>
+          <textarea name="methods" rows="6" placeholder="01 | mdi:bank-outline | โอนผ่านธนาคาร | ธนาคารกสิกรไทย ชื่อบัญชี..."><%= methodsText %></textarea>
+          <p style="font-size:12px;color:var(--mut);margin-top:6px">ตัวอย่างไอคอน: mdi:bank-outline (โอนธนาคาร), mdi:qrcode (พร้อมเพย์), mdi:cash-multiple (เงินสด), mdi:credit-card-outline (บัตร)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="ph2"><h3><iconify-icon icon="mdi:file-document-outline"></iconify-icon> เงื่อนไขการชำระเงิน</h3></div>
+      <div class="fgrid">
+        <div class="fld full">
+          <label>หนึ่งบรรทัดต่อหนึ่งเงื่อนไข คั่นด้วย " | " (2 คอลัมน์: หัวข้อ | รายละเอียด)</label>
+          <textarea name="terms" rows="6" placeholder="งานติดตั้งแอร์ | มัดจำ 50% ก่อนเริ่มงาน..."><%= termsText %></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn nv" style="margin-top:4px">บันทึกข้อมูลการชำระเงิน</button>
+  </form>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

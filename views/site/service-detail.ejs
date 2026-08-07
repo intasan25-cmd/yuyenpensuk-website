@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:s.title, desc:(s.long||s.description).slice(0,155), ogImage:s.image||''}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<div class="crumb"><a href="/">หน้าแรก</a> / <a href="/services">บริการ</a> / <b><%= s.title %></b></div>
+
+<section class="sec">
+  <div class="svc-detail-head">
+    <span class="icowrap"><iconify-icon icon="<%= s.icon %>"></iconify-icon></span>
+    <div>
+      <span class="eyebrow-dot">Service</span>
+      <h1 style="font-size:clamp(22px,3.2vw,30px);margin-top:4px"><%= s.title %></h1>
+    </div>
+  </div>
+
+  <% if (s.image) { %>
+  <div class="ph h300 zoomable" style="border-radius:3px;margin:22px 0" data-lightbox="service" data-src="<%= s.image %>">
+    <img src="<%= s.image %>" alt="<%= s.title %>" onerror="this.style.display='none'">
+  </div>
+  <% } %>
+
+  <div class="g2" style="gap:clamp(24px,4vw,48px);align-items:start">
+    <div>
+      <p style="color:var(--mut);line-height:1.9;white-space:pre-line"><%= s.long || s.description %></p>
+      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn nv" href="/contact"><iconify-icon icon="mdi:phone-outline"></iconify-icon> ติดต่อทีมงาน</a>
+        <a class="btn ln" href="/services"><iconify-icon icon="mdi:arrow-left"></iconify-icon> กลับหน้าบริการ</a>
+      </div>
+    </div>
+
+    <% if (s.steps && s.steps.length) { %>
+    <div>
+      <span class="eyebrow-dot">ขั้นตอนการทำงาน</span>
+      <div class="steps">
+        <% s.steps.forEach((st,i)=>{ %>
+        <div class="s"><div class="n"><%= String(i+1).padStart(2,'0') %></div><div class="t"><%= st %></div></div>
+        <% }) %>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

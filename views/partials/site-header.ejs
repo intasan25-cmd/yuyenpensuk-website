@@ -1,0 +1,17 @@
+<header class="sh">
+  <a class="lg" href="/">
+    <% if (company.logo) { %><img src="<%= company.logo %>" class="lg-img" alt="<%= company.name %>"><% } else { %><span class="mk">SY</span><% } %>
+    <span>อยู่เย็นเป็นสุข <em>วิศวกรรม</em></span>
+  </a>
+  <nav>
+    <a href="/" class="<%= active==='home'?'act':'' %>">หน้าแรก</a>
+    <a href="/services" class="<%= active==='services'?'act':'' %>">บริการ</a>
+    <a href="/products" class="<%= active==='products'?'act':'' %>">สินค้า</a>
+    <a href="/pricing-install" class="<%= active==='pricing'?'act':'' %>">ค่าบริการ</a>
+    <a href="/projects" class="<%= active==='projects'?'act':'' %>">ผลงาน</a>
+    <a href="/payment" class="<%= active==='payment'?'act':'' %>">ชำระเงิน</a>
+    <a href="/contact" class="<%= active==='contact'?'act':'' %>">ติดต่อเรา</a>
+  </nav>
+  <a class="tel" href="tel:<%= company.phone %>"><iconify-icon icon="mdi:phone-outline"></iconify-icon> <%= company.phone %></a>
+  <button class="burger" aria-label="เปิดเมนู"><iconify-icon icon="mdi:menu"></iconify-icon></button>
+</header>

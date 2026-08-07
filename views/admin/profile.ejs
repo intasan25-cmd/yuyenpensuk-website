@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'โปรไฟล์ของฉัน'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'โปรไฟล์ของฉัน'}) %>
+
+  <% if (msg) { %><div class="ok-note"><iconify-icon icon="mdi:check-circle-outline"></iconify-icon> <%= msg %></div><% } %>
+  <% if (err) { %><div class="err-note"><iconify-icon icon="mdi:alert-outline"></iconify-icon> <%= err %></div><% } %>
+
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:account-outline"></iconify-icon> ข้อมูลส่วนตัว</h3></div>
+    <form class="pb" method="post" action="/admin/profile"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="fgrid">
+        <div class="fld"><label>ชื่อ–นามสกุล</label><input name="name" value="<%= me.name %>" required></div>
+        <div class="fld"><label>Username</label><input value="<%= me.username %>" readonly style="background:var(--bg)"></div>
+        <div class="fld"><label>อีเมล</label><input type="email" name="email" value="<%= me.email %>"></div>
+        <div class="fld"><label>เบอร์โทร</label><input name="phone" value="<%= me.phone %>"></div>
+      </div>
+      <button class="btn nv" style="margin-top:16px">บันทึกข้อมูล</button>
+    </form>
+  </div>
+
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:key-outline"></iconify-icon> เปลี่ยนรหัสผ่าน</h3></div>
+    <form class="pb" method="post" action="/admin/profile/password"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="fgrid">
+        <div class="fld"><label>รหัสผ่านปัจจุบัน</label><input type="password" name="current" required autocomplete="current-password"></div>
+        <div class="fld"><label>รหัสผ่านใหม่</label><input type="password" name="password" required minlength="8" placeholder="อย่างน้อย 8 ตัวอักษร" autocomplete="new-password"></div>
+      </div>
+      <button class="btn ln" style="margin-top:16px">เปลี่ยนรหัสผ่าน</button>
+    </form>
+  </div>
+
+  <div class="panel">
+    <div class="ph2">
+      <h3><iconify-icon icon="mdi:shield-lock-outline"></iconify-icon> การยืนยันตัวตน 2 ขั้นตอน (2FA)</h3>
+      <span class="tag <%= me.twofa_enabled?'gr':'gy' %>"><%= me.twofa_enabled?'เปิดใช้งานอยู่':'ยังไม่เปิดใช้' %></span>
+    </div>
+    <div class="pb">
+      <% if (me.twofa_enabled) { %>
+        <p style="color:var(--mut);margin-bottom:14px">ระบบจะขอรหัส OTP 6 หลักจากแอป Authenticator ทุกครั้งที่เข้าสู่ระบบ</p>
+        <form method="post" action="/admin/profile/2fa/disable" onsubmit="return confirm('ปิดใช้ 2FA?')"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button class="btn ln">ปิดใช้ 2FA</button>
+        </form>
+      <% } else if (qr) { %>
+        <div class="qr">
+          <img src="<%= qr %>" alt="QR Code สำหรับตั้งค่า 2FA">
+          <div style="flex:1;min-width:240px">
+            <p style="color:var(--mut);line-height:1.8;margin-bottom:12px">
+              1. เปิดแอป <b>Google Authenticator</b> หรือ <b>Microsoft Authenticator</b><br>
+              2. สแกน QR Code นี้<br>
+              3. กรอกรหัส 6 หลักจากแอปเพื่อยืนยัน
+            </p>
+            <form method="post" action="/admin/profile/2fa/confirm" style="display:flex;gap:10px;flex-wrap:wrap"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input name="token" inputmode="numeric" maxlength="6" placeholder="รหัส 6 หลัก" required style="border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;font-size:15px;letter-spacing:.3em;width:160px">
+              <button class="btn nv">ยืนยันและเปิดใช้</button>
+            </form>
+          </div>
+        </div>
+      <% } else { %>
+        <p style="color:var(--mut);margin-bottom:14px">เพิ่มความปลอดภัยด้วยรหัส OTP จากแอป Authenticator ทุกครั้งที่เข้าสู่ระบบ</p>
+        <form method="post" action="/admin/profile/2fa/setup"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button class="btn am">เริ่มตั้งค่า 2FA</button>
+        </form>
+      <% } %>
+    </div>
+  </div>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

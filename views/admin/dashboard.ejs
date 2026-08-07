@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'แดชบอร์ด'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'แดชบอร์ด'}) %>
+
+  <div class="stats">
+    <div class="stat"><div class="ic" style="background:#E8F1FB"><iconify-icon icon="mdi:cog-outline"></iconify-icon></div><div class="n"><%= stats.services %></div><div class="l">บริการทั้งหมด</div></div>
+    <div class="stat"><div class="ic" style="background:#FDF3D9"><iconify-icon icon="mdi:package-variant-closed"></iconify-icon></div><div class="n"><%= stats.products %></div><div class="l">สินค้าทั้งหมด</div></div>
+    <div class="stat"><div class="ic" style="background:#E7F5EC"><iconify-icon icon="mdi:crane"></iconify-icon></div><div class="n"><%= stats.projects %></div><div class="l">ผลงานทั้งหมด</div></div>
+    <div class="stat"><div class="ic" style="background:#F3ECFB"><iconify-icon icon="mdi:newspaper-variant-outline"></iconify-icon></div><div class="n"><%= stats.news %></div><div class="l">ข่าวสารทั้งหมด</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:newspaper-variant-outline"></iconify-icon> ข่าวล่าสุด</h3><a class="btn ln" href="/admin/news">จัดการข่าว</a></div>
+    <div class="tblwrap"><table class="tbl">
+      <% latestNews.forEach(n=>{ %>
+      <tr>
+        <td style="width:70px"><span class="thumb"><% if(n.image){ %><img src="<%= n.image %>"><% } else { %><iconify-icon icon="mdi:newspaper-variant-outline"></iconify-icon><% } %></span></td>
+        <td style="font-weight:600"><%= n.title %></td>
+        <td style="width:120px;color:var(--mut)"><%= n.published_at %></td>
+        <td style="width:120px"><span class="tag <%= n.published?'gr':'gy' %>"><%= n.published?'เผยแพร่แล้ว':'ฉบับร่าง' %></span></td>
+      </tr>
+      <% }) %>
+    </table></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:flash-outline"></iconify-icon> เมนูด่วน</h3></div>
+    <div class="pb" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px">
+      <a class="btn ln" style="flex-direction:column;padding:16px" href="/admin/services"><iconify-icon icon="mdi:cog-outline"></iconify-icon> เพิ่มบริการ</a>
+      <a class="btn ln" style="flex-direction:column;padding:16px" href="/admin/products"><iconify-icon icon="mdi:package-variant-closed"></iconify-icon> เพิ่มสินค้า</a>
+      <a class="btn ln" style="flex-direction:column;padding:16px" href="/admin/projects"><iconify-icon icon="mdi:crane"></iconify-icon> เพิ่มผลงาน</a>
+      <a class="btn ln" style="flex-direction:column;padding:16px" href="/admin/news"><iconify-icon icon="mdi:newspaper-variant-outline"></iconify-icon> เพิ่มข่าว</a>
+    </div>
+  </div>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

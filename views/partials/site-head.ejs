@@ -1,0 +1,47 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= title %> — อยู่เย็นเป็นสุข วิศวกรรม | ติดตั้ง ล้าง ซ่อม จำหน่ายแอร์</title>
+<%
+  const defaultDesc = 'บริษัท อยู่เย็นเป็นสุข วิศวกรรม จำกัด ติดตั้ง ล้าง ซ่อม และจำหน่ายเครื่องปรับอากาศทุกยี่ห้อ พร้อมงานไฟฟ้าที่เกี่ยวข้อง บริการเขตคลองสามวาและทั่วกรุงเทพฯ โทร ' + company.phone;
+  const metaDesc = (typeof desc !== 'undefined' && desc) ? desc : defaultDesc;
+  const pageUrl = baseUrl + path;
+%>
+<meta name="description" content="<%= metaDesc %>">
+<link rel="canonical" href="<%= pageUrl %>">
+<meta name="theme-color" content="#12402B">
+<!-- Open Graph: แชร์ผ่าน Line / Facebook แล้วขึ้นการ์ดสวย -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="อยู่เย็นเป็นสุข วิศวกรรม">
+<meta property="og:title" content="<%= title %> — อยู่เย็นเป็นสุข วิศวกรรม">
+<meta property="og:description" content="<%= metaDesc %>">
+<meta property="og:url" content="<%= pageUrl %>">
+<meta property="og:image" content="<%= typeof ogImage !== 'undefined' && ogImage ? ogImage : 'https://images.pexels.com/photos/8496404/pexels-photo-8496404.jpeg?auto=compress&cs=tinysrgb&w=1200' %>">
+<meta property="og:locale" content="th_TH">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Structured Data: ให้ Google รู้จักธุรกิจ (แสดงผลใน Search/Maps ได้ดีขึ้น) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HVACBusiness",
+  "name": "<%= company.name.replace(' (สำนักงานใหญ่)','') %>",
+  "description": "ติดตั้ง ล้าง ซ่อม และจำหน่ายเครื่องปรับอากาศทุกยี่ห้อ พร้อมงานไฟฟ้าที่เกี่ยวข้อง",
+  "url": "<%= baseUrl %>",
+  "telephone": "<%= company.phone %>",
+  "email": "<%= company.email %>",
+  "taxID": "<%= company.tax_id %>",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "594/151 ถนนหทัยราษฎร์ แขวงบางชัน",
+    "addressLocality": "เขตคลองสามวา",
+    "addressRegion": "กรุงเทพมหานคร",
+    "postalCode": "10510",
+    "addressCountry": "TH"
+  },
+  "openingHours": "Mo-Sa 08:00-17:30",
+  "priceRange": "฿฿"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" async></script>

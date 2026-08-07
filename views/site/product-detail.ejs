@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:p.brand+' '+p.name, desc:(p.description||p.spec).slice(0,155), ogImage:p.image||''}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<div class="crumb"><a href="/">หน้าแรก</a> / <a href="/products">สินค้า</a> / <a href="/brands/<%= encodeURIComponent(p.brand) %>"><%= p.brand %></a> / <b><%= p.name %></b></div>
+
+<section class="sec">
+  <div class="g2" style="gap:clamp(24px,4vw,48px);align-items:start">
+
+    <!-- แกลเลอรีรูปภาพ: hover ซูม + คลิกดูพรีวิวเต็มจอ -->
+    <div>
+      <% const imgs = (p.gallery && p.gallery.length) ? p.gallery : (p.image ? [p.image] : []); %>
+      <% if (imgs.length) { %>
+        <div class="ph prod gal-main zoomable" data-lightbox="product" data-src="<%= imgs[0] %>">
+          <img src="<%= imgs[0] %>" alt="<%= p.name %>" onerror="this.style.display='none'">
+        </div>
+        <% if (imgs.length > 1) { %>
+        <div class="gal-thumbs">
+          <% imgs.slice(1).forEach((g,i)=>{ %>
+          <div class="ph prod zoomable" data-lightbox="product" data-src="<%= g %>">
+            <img src="<%= g %>" alt="<%= p.name %> รูปที่ <%= i+2 %>" onerror="this.style.display='none'">
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
+        <p style="font-size:12px;color:var(--mut);margin-top:10px;display:flex;align-items:center;gap:6px">
+          <iconify-icon icon="mdi:magnify-plus-outline" style="color:var(--brass)"></iconify-icon>
+          คลิกที่รูปเพื่อดูภาพขนาดเต็ม
+        </p>
+      <% } else { %>
+        <div class="ph prod gal-main"><iconify-icon class="phicon" icon="mdi:air-conditioner"></iconify-icon></div>
+      <% } %>
+    </div>
+
+    <!-- ข้อมูลสินค้า + ราคา -->
+    <div class="buybox">
+      <div class="brandtag">
+        <span class="tag bl"><%= p.brand %></span>
+        <% if (p.badge) { %><span class="tag" style="background:var(--pine);color:#fff;margin-left:6px"><%= p.badge %></span><% } %>
+      </div>
+      <h1><%= p.name %></h1>
+      <div class="model">รุ่น <%= p.model %><% if (p.type) { %> · <%= p.type %><% } %></div>
+
+      <div class="pricebox">
+        <div class="row">
+          <% if (p.price) { %>
+            <span class="now">฿<%= p.price.toLocaleString() %></span>
+            <% if (p.priceOld) { %><span class="was">฿<%= p.priceOld.toLocaleString() %></span><% } %>
+          <% } else { %>
+            <span class="now ask">ราคาตามขนาดหน้างาน</span>
+          <% } %>
+        </div>
+        <div class="note">
+          <% if (p.price) { %>ราคารวมค่าติดตั้งมาตรฐาน · ผ่อน 0% นาน 10 เดือน<% } else { %>ระบบรวมศูนย์ ประเมินราคาหลังสำรวจหน้างาน<% } %>
+        </div>
+      </div>
+
+      <table class="spec">
+        <tr><td>ยี่ห้อ</td><td><%= p.brand %></td></tr>
+        <tr><td>รุ่น</td><td><%= p.model %></td></tr>
+        <% if (p.type) { %><tr><td>ประเภท</td><td><%= p.type %></td></tr><% } %>
+        <tr><td>สเปก</td><td><%= p.spec || '—' %></td></tr>
+        <tr><td>การรับประกัน</td><td>คอมเพรสเซอร์ 5 ปี · อะไหล่ 1 ปี</td></tr>
+      </table>
+
+      <div class="buyrow">
+        <a class="btn nv" href="/contact"><iconify-icon icon="mdi:cart-check"></iconify-icon> สั่งซื้อและนัดติดตั้ง</a>
+        <a class="btn ln" href="tel:<%= company.phone %>"><iconify-icon icon="mdi:phone-outline"></iconify-icon> โทรสั่งซื้อ <%= company.phone %></a>
+      </div>
+      <% if (p.catalog) { %>
+      <div style="margin-top:12px"><a class="btn rd" href="<%= p.catalog %>" target="_blank" rel="noopener"><iconify-icon icon="mdi:file-pdf-box"></iconify-icon> ดาวน์โหลด Catalog PDF</a></div>
+      <% } %>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--line);margin-top:36px;padding-top:30px">
+    <span class="eyebrow-dot">Product Detail</span>
+    <h2 style="font-size:22px;margin:10px 0 14px">รายละเอียดสินค้า</h2>
+    <p style="color:var(--mut);line-height:1.9;max-width:900px;white-space:pre-line"><%= p.description %></p>
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+      <a class="btn ln" href="/brands/<%= encodeURIComponent(p.brand) %>"><iconify-icon icon="mdi:arrow-left"></iconify-icon> ดูสินค้า <%= p.brand %> ทั้งหมด</a>
+      <a class="btn ln" href="/products">กลับหน้าสินค้า</a>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

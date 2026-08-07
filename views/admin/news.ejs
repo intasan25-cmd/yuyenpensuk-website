@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'จัดการข่าวสาร'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'จัดการข่าวสาร'}) %>
+
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:newspaper-variant-outline"></iconify-icon> รายการข่าว (<%= rows.length %>)</h3></div>
+    <div class="tblwrap"><table class="tbl">
+      <tr><th>รูป</th><th>หัวข้อข่าว</th><th>วันที่เผยแพร่</th><th>สถานะ</th><th>จัดการ</th></tr>
+      <% rows.forEach(n=>{ %>
+      <tr>
+        <td><span class="thumb"><% if(n.image){ %><img src="<%= n.image %>"><% } else { %><iconify-icon icon="mdi:newspaper-variant-outline"></iconify-icon><% } %></span></td>
+        <td style="font-weight:600"><%= n.title %></td>
+        <td style="color:var(--mut)"><%= n.published_at %></td>
+        <td><span class="tag <%= n.published?'gr':'gy' %>"><%= n.published?'เผยแพร่แล้ว':'ฉบับร่าง' %></span></td>
+        <td><div class="act2">
+          <a class="mini ed" href="/admin/news?edit=<%= n.id %>">แก้ไข</a>
+          <form method="post" action="/admin/news/delete/<%= n.id %>" onsubmit="return confirm('ลบข่าวนี้?')" style="display:inline"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="mini dl">ลบ</button></form>
+        </div></td>
+      </tr>
+      <% }) %>
+    </table></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph2"><h3><%- editing ? '<iconify-icon icon="mdi:pencil-outline"></iconify-icon> แก้ไขข่าว' : '<iconify-icon icon="mdi:plus"></iconify-icon> เพิ่มข่าว' %></h3><% if(editing){ %><a class="btn ln" href="/admin/news">ยกเลิกการแก้ไข</a><% } %></div>
+    <form class="pb" method="post" action="/admin/news/save" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="id" value="<%= editing ? editing.id : '' %>">
+      <div class="fgrid">
+        <div class="fld"><label>หัวข้อข่าว</label><input name="title" value="<%= editing ? editing.title : '' %>" required></div>
+        <div class="fld"><label>รูปหน้าปก</label><input type="file" name="image" accept="image/*"></div>
+        <div class="fld"><label>วันที่เผยแพร่</label><input name="published_at" value="<%= editing ? editing.published_at : '' %>" placeholder="เช่น 2569-07-17"></div>
+        <div class="fld"><label class="chkrow" style="margin-top:26px"><input type="checkbox" name="published" <%= editing && !editing.published ? '' : 'checked' %>> เผยแพร่ทันที</label></div>
+        <div class="fld full"><label>เนื้อหาข่าว</label><textarea name="body" style="min-height:140px" required><%= editing ? editing.body : '' %></textarea></div>
+      </div>
+      <button class="btn nv" style="margin-top:16px"><%= editing ? 'บันทึกการแก้ไข' : 'เพิ่มข่าว' %></button>
+    </form>
+  </div>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

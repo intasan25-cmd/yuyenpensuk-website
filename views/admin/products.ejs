@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'จัดการสินค้า'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'จัดการสินค้า'}) %>
+
+  <%
+    // จัดกลุ่มสินค้าตามยี่ห้อ — แต่ละยี่ห้อเป็นหมวดแยกกัน ไม่ปนกัน
+    const groups = {};
+    rows.forEach(p => { const b = p.brand || 'ไม่ระบุยี่ห้อ'; (groups[b] = groups[b] || []).push(p); });
+    const brandNames = Object.keys(groups).sort();
+    const brandColors = ['#0E4D6B','#2C6B4C','#8a6224','#12402B','#A0742A','#0E6E63'];
+  %>
+
+  <div class="note"><iconify-icon icon="mdi:information-outline"></iconify-icon> กดชื่อยี่ห้อเพื่อดูเฉพาะหมวดนั้น ทั้งหมด <%= rows.length %> รายการ · <%= brandNames.length %> ยี่ห้อ</div>
+
+  <% if (brandNames.length) { %>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
+    <button type="button" class="tag brandchip" data-brand-target="all" style="background:var(--navy);color:#fff;padding:7px 14px">ทั้งหมด (<%= rows.length %>)</button>
+    <% brandNames.forEach((b,i)=>{ %>
+    <button type="button" class="tag brandchip" data-brand-target="brand-<%= i %>" style="background:<%= brandColors[i%6] %>;color:#fff;padding:7px 14px"><%= b %> (<%= groups[b].length %>)</button>
+    <% }) %>
+  </div>
+  <% } %>
+
+  <% brandNames.forEach((b,gi)=>{ %>
+  <div class="panel" id="brand-<%= gi %>" data-brand-panel="brand-<%= gi %>">
+    <div class="ph2" style="background:<%= brandColors[gi%6] %>;border-bottom:none">
+      <h3 style="color:#fff;display:flex;align-items:center;gap:8px"><iconify-icon icon="mdi:tag-outline"></iconify-icon> <%= b %> <span style="opacity:.8;font-weight:400">(<%= groups[b].length %> รายการ)</span></h3>
+      <a class="btn ln" href="/admin/products?brand=<%= encodeURIComponent(b) %>#add-form" style="background:rgba(255,255,255,.15);color:#fff;border-color:transparent"><iconify-icon icon="mdi:plus"></iconify-icon> เพิ่มสินค้าในหมวดนี้</a>
+    </div>
+    <div class="tblwrap"><table class="tbl">
+      <tr><th>รูป</th><th>ชื่อสินค้า</th><th>ราคา</th><th>ไฟล์แนบ</th><th>จัดการ</th></tr>
+      <% groups[b].forEach(p=>{ %>
+      <tr>
+        <td><span class="thumb"><% if(p.image){ %><img src="<%= p.image %>"><% } else { %><iconify-icon icon="mdi:air-conditioner"></iconify-icon><% } %></span></td>
+        <td style="font-weight:600"><%= p.name %><% if(p.bestseller){ %> <iconify-icon icon="mdi:star" style="color:var(--amber);font-size:14px" title="ขายดี"></iconify-icon><% } %></td>
+        <td style="color:var(--mut)"><%= p.price ? '฿'+p.price.toLocaleString() : 'สอบถามราคา' %></td>
+        <td><% if(p.catalog){ %><a class="tag rd" href="<%= p.catalog %>" target="_blank">PDF <iconify-icon icon="mdi:check"></iconify-icon></a><% } else { %><span class="tag gy">ไม่มี</span><% } %></td>
+        <td><div class="act2">
+          <a class="mini ed" href="/admin/products?edit=<%= p.id %>#add-form">แก้ไข</a>
+          <form method="post" action="/admin/products/delete/<%= p.id %>" onsubmit="return confirm('ลบสินค้านี้?')" style="display:inline"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="mini dl">ลบ</button></form>
+        </div></td>
+      </tr>
+      <% }) %>
+    </table></div>
+  </div>
+  <% }) %>
+  <% if (!brandNames.length) { %><div class="panel"><div class="pb" style="color:var(--mut)">ยังไม่มีสินค้าในระบบ เพิ่มสินค้าแรกได้ที่ฟอร์มด้านล่าง</div></div><% } %>
+
+  <div class="panel" id="add-form">
+    <div class="ph2"><h3><%- editing ? '<iconify-icon icon="mdi:pencil-outline"></iconify-icon> แก้ไขสินค้า' : '<iconify-icon icon="mdi:plus"></iconify-icon> เพิ่มสินค้าใหม่' %><% if(!editing && presetBrand){ %> — หมวด <%= presetBrand %><% } %></h3><% if(editing){ %><a class="btn ln" href="/admin/products">ยกเลิกการแก้ไข</a><% } %></div>
+    <form class="pb" method="post" action="/admin/products/save" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="id" value="<%= editing ? editing.id : '' %>">
+
+      <div class="fsection">
+        <h4><iconify-icon icon="mdi:information-outline"></iconify-icon> ข้อมูลพื้นฐาน</h4>
+        <div class="fgrid">
+          <div class="fld"><label>ชื่อสินค้า</label><input name="name" value="<%= editing ? editing.name : '' %>" required></div>
+          <div class="fld">
+            <label>ยี่ห้อ (หมวดหมู่)</label>
+            <input name="brand" list="brandlist" value="<%= editing ? editing.brand : presetBrand %>" placeholder="เลือกยี่ห้อเดิม หรือพิมพ์ยี่ห้อใหม่" required>
+            <datalist id="brandlist"><% brandNames.forEach(b=>{ %><option value="<%= b %>"><% }) %></datalist>
+            <p class="hint">เลือกจากยี่ห้อที่มีอยู่แล้ว หรือพิมพ์ชื่อยี่ห้อใหม่เพื่อสร้างหมวดใหม่</p>
+          </div>
+          <div class="fld"><label>รุ่น</label><input name="model" value="<%= editing ? editing.model : '' %>"></div>
+          <div class="fld"><label>ประเภท</label><input name="type" value="<%= editing ? editing.type : '' %>" placeholder="เช่น ติดผนัง / ฝังฝ้า 4 ทิศทาง"></div>
+        </div>
+      </div>
+
+      <div class="fsection price">
+        <h4><iconify-icon icon="mdi:currency-usd"></iconify-icon> ราคา</h4>
+        <div class="fgrid">
+          <div class="fld"><label>ราคา (บาท) — เว้นว่างหรือ 0 = สอบถามราคา</label><input name="price" type="number" value="<%= editing ? editing.price : '' %>"></div>
+          <div class="fld"><label>ราคาก่อนลด (ถ้ามี)</label><input name="priceOld" type="number" value="<%= editing ? editing.priceOld : '' %>"></div>
+          <div class="fld full"><label>ป้าย (เช่น ขายดี, สินค้าใหม่)</label><input name="badge" value="<%= editing ? editing.badge : '' %>"></div>
+          <div class="fld full">
+            <label style="display:flex;align-items:center;gap:8px;font-weight:600">
+              <input type="checkbox" name="bestseller" style="width:auto" <%= editing && editing.bestseller ? 'checked' : '' %>>
+              แสดงในหมวด "แอร์ขายดี แนะนำ" หน้าแรก
+            </label>
+            <p class="hint">ติ๊กเพื่อให้สินค้านี้ขึ้นแสดงในส่วนซื้อขายแอร์บนหน้าแรกของเว็บไซต์</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fsection desc">
+        <h4><iconify-icon icon="mdi:text-box-outline"></iconify-icon> รายละเอียดสินค้า</h4>
+        <div class="fgrid">
+          <div class="fld full"><label>สเปกโดยย่อ (แสดงในการ์ดสินค้า)</label><input name="spec" value="<%= editing ? editing.spec : '' %>" placeholder="เช่น 12,300 BTU · SEER 18.5 · R32"></div>
+          <div class="fld full"><label>รายละเอียด (แสดงในหน้ารายละเอียดสินค้า)</label><textarea name="description"><%= editing ? editing.description : '' %></textarea></div>
+        </div>
+      </div>
+
+      <div class="fsection img">
+        <h4><iconify-icon icon="mdi:image-multiple-outline"></iconify-icon> รูปภาพ</h4>
+
+        <div class="imgguide">
+          <div class="mockup">
+            <div class="big" style="aspect-ratio:1/1">รูปหลัก<br>อัตราส่วน 1:1</div>
+            <div class="thumbs"><div></div><div></div><div></div><div></div></div>
+          </div>
+          <div class="info">
+            <div class="row"><span class="sw" style="background:var(--teal)"></span><b>รูปหลัก</b> — แสดงเป็นรูปใหญ่ด้านซ้ายบนของหน้ารายละเอียดสินค้า อัตราส่วน 1:1 แนะนำขนาด <b>2048×2048px</b></div>
+            <div class="row"><span class="sw" style="background:var(--amber)"></span><b>แกลเลอรี (สูงสุด 4 รูป)</b> — แสดงเป็นรูปย่อย 4 ช่องด้านล่างรูปหลัก คลิกดูขยายได้ อัตราส่วน 1:1 แนะนำขนาด <b>1200×1200px</b></div>
+            <div class="row"><span class="sw" style="background:var(--pine)"></span><b>รูปในการ์ดสินค้า/หน้ารายการ</b> — อัตราส่วน 1:1 แนะนำขนาด <b>800×800px</b> หรือ <b>1200×1200px</b></div>
+          </div>
+        </div>
+
+        <div class="fgrid">
+          <div class="fld"><label>รูปภาพสินค้า (รูปหลัก)</label><input type="file" name="image" accept="image/*"></div>
+          <div class="fld"><label>ไฟล์แนบ (PDF)</label><input type="file" name="catalog" accept="application/pdf"></div>
+          <div class="fld full">
+            <label>แกลเลอรีรูปภาพ (เลือกได้สูงสุด 4 รูปพร้อมกัน)</label>
+            <input type="file" name="gallery" accept="image/*" multiple>
+            <p class="hint">เลือกไฟล์ใหม่จะแทนที่ชุดเดิมทั้งหมด ถ้าไม่เลือกไฟล์ใหม่ รูปเดิมจะยังอยู่</p>
+            <% if (editing && editing.gallery && editing.gallery.length) { %>
+            <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+              <% editing.gallery.forEach(g=>{ %><span class="thumb" style="width:60px;height:60px"><img src="<%= g %>"></span><% }) %>
+            </div>
+            <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:400">
+              <input type="checkbox" name="clearGallery" style="width:auto"> ล้างแกลเลอรีเดิมทั้งหมด (ไม่อัปโหลดรูปใหม่)
+            </label>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn nv" style="margin-top:4px"><%= editing ? 'บันทึกการแก้ไข' : 'เพิ่มสินค้า' %></button>
+    </form>
+  </div>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

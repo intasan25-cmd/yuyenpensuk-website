@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'ค่าบริการล้างแอร์', desc:'อัตราค่าล้างทำความสะอาดเครื่องปรับอากาศตามประเภทและขนาด พร้อมส่วนลดสำหรับการล้างหลายเครื่อง'}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<section class="page-hero">
+  <div class="sec" style="padding:0">
+    <div class="crumb2"><a href="/">หน้าแรก</a> / <a href="/pricing-install">ค่าบริการ</a> / <b>ล้างแอร์</b></div>
+    <span class="eyebrow-dot">Cleaning Pricing</span>
+    <h1>ค่าบริการล้างแอร์</h1>
+    <p>อัตราค่าล้างทำความสะอาดเครื่องปรับอากาศตามประเภทและขนาด พร้อมส่วนลดสำหรับการล้างหลายเครื่อง</p>
+  </div>
+</section>
+
+<section class="sec">
+
+  <div class="ptabs">
+    <a href="/pricing-install"><iconify-icon icon="mdi:air-conditioner"></iconify-icon> ค่าบริการติดตั้งแอร์</a>
+    <a href="/pricing-clean" class="on"><iconify-icon icon="mdi:air-filter"></iconify-icon> ค่าบริการล้างแอร์</a>
+  </div>
+
+  <table class="ptable">
+    <thead><tr><th>ประเภทแอร์</th><th>ขนาด</th><th>ค่าล้าง / เครื่อง</th></tr></thead>
+    <tbody>
+      <% pricing.rows.forEach(r=>{ %><tr><td><%= r[0] %></td><td><%= r[1] %></td><td><%= r[2] %></td></tr><% }) %>
+    </tbody>
+  </table>
+
+  <div class="pboxes">
+    <div class="fw-card" style="background:linear-gradient(160deg,#0E4D6B,#3DDBD9)">
+      <div class="wm">✓</div>
+      <h4><iconify-icon icon="mdi:spray-bottle"></iconify-icon> ขั้นตอนการล้างครอบคลุม</h4>
+      <ul><% pricing.steps.forEach(x=>{ %><li><iconify-icon icon="mdi:check"></iconify-icon><span><%= x %></span></li><% }) %></ul>
+    </div>
+    <div class="fw-card" style="background:linear-gradient(160deg,#8a6224,#D7BE8B)">
+      <div class="wm">%</div>
+      <h4><iconify-icon icon="mdi:sale-outline"></iconify-icon> ส่วนลดและแพ็กเกจ</h4>
+      <ul><% pricing.promo.forEach(x=>{ %><li><iconify-icon icon="mdi:star-four-points-outline"></iconify-icon><span><%= x %></span></li><% }) %></ul>
+    </div>
+  </div>
+
+  <div class="pnote">
+    <iconify-icon icon="mdi:information-outline"></iconify-icon>
+    <span>ราคาข้างต้นเป็นตัวอย่างเบื้องต้น อาจปรับตามสภาพเครื่องและความสูงในการติดตั้ง กรุณาติดต่อเพื่อยืนยันราคาก่อนนัดหมาย</span>
+  </div>
+
+  <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
+    <a class="btn am" href="/contact"><iconify-icon icon="mdi:calendar-check-outline"></iconify-icon> นัดหมายล้างแอร์</a>
+    <a class="btn ln" href="/pricing-install"><iconify-icon icon="mdi:arrow-left"></iconify-icon> ดูค่าบริการติดตั้ง</a>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

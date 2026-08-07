@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'การชำระเงิน', desc:'วิธีการชำระเงิน โอนผ่านธนาคาร พร้อมเพย์ เงินสด บัตรเครดิตผ่อน 0% พร้อมเงื่อนไขการชำระและออกใบกำกับภาษี'}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<section class="page-hero">
+  <div class="sec" style="padding:0">
+    <div class="crumb2"><a href="/">หน้าแรก</a> / <b>การชำระเงิน</b></div>
+    <span class="eyebrow-dot">Payment</span>
+    <h1>วิธีการชำระเงิน</h1>
+    <p>รองรับการชำระหลายช่องทางเพื่อความสะดวก พร้อมออกใบเสร็จและใบกำกับภาษีได้</p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="paylist">
+    <% const payColors=['#0E4D6B','#2C6B4C','#8a6224','var(--pine)']; %>
+    <% payment.methods.forEach((m,i)=>{ %>
+    <div class="payrow">
+      <span class="icowrap" style="background:<%= payColors[i%4] %>"><iconify-icon icon="<%= m.icon %>" style="color:#fff"></iconify-icon></span>
+      <div>
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+          <span class="tag gy" style="font-family:var(--fm)"><%= m.no %></span>
+          <h3 style="margin:0"><%= m.title %></h3>
+        </div>
+        <p><%= m.desc %></p>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</section>
+
+<section class="sec alt">
+  <div class="shead"><div><span class="eyebrow-dot">Payment Terms</span><h2>เงื่อนไขการชำระเงิน</h2></div></div>
+  <div class="dl">
+    <% payment.terms.forEach(t=>{ %>
+    <div class="dlr"><div class="k"><%= t[0] %></div><div class="v"><%= t[1] %></div></div>
+    <% }) %>
+  </div>
+  <div class="pnote">
+    <iconify-icon icon="mdi:information-outline"></iconify-icon>
+    <span>ข้อมูลบัญชีธนาคารและรายละเอียดการชำระเงินจะยืนยันอีกครั้งเมื่อตกลงสั่งซื้อหรือใช้บริการ</span>
+  </div>
+  <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+    <a class="btn am" href="/contact"><iconify-icon icon="mdi:message-text-outline"></iconify-icon> สอบถามการชำระเงิน</a>
+    <a class="btn ln" href="/products">ดูสินค้า <iconify-icon icon="mdi:arrow-right"></iconify-icon></a>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

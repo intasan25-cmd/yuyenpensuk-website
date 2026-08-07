@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'เข้าสู่ระบบ'}) %></head>
+<body>
+<div class="auth2">
+  <div class="side">
+    <% if (company.logo) { %><img src="<%= company.logo %>" style="height:52px;margin-bottom:24px;position:relative;z-index:1" alt="โลโก้"><% } else { %><div class="mk2">SY</div><% } %>
+    <h1>ระบบจัดการเว็บไซต์</h1>
+    <p>บริษัท อยู่เย็นเป็นสุข วิศวกรรม จำกัด — เข้าสู่ระบบเพื่อจัดการเนื้อหาเว็บไซต์ สินค้า บริการ และผลงานทั้งหมด</p>
+    <div class="fx">
+      <span><iconify-icon icon="mdi:shield-check-outline"></iconify-icon> ปลอดภัยด้วย 2FA</span>
+      <span><iconify-icon icon="mdi:sync"></iconify-icon> อัปเดตเว็บไซต์ทันที</span>
+    </div>
+  </div>
+  <div class="form">
+    <div class="fcard">
+      <h2>เข้าสู่ระบบ</h2>
+      <p class="sub">กรอกชื่อผู้ใช้และรหัสผ่านของคุณ</p>
+      <% if (error) { %><div class="err-note"><iconify-icon icon="mdi:alert-circle-outline"></iconify-icon> <%= error %></div><% } %>
+      <form method="post" action="/admin/login"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="fld"><label><iconify-icon icon="mdi:account-outline"></iconify-icon> Username</label><input name="username" required autofocus autocomplete="username"></div>
+        <div class="fld"><label><iconify-icon icon="mdi:lock-outline"></iconify-icon> Password</label><input type="password" name="password" required autocomplete="current-password"></div>
+        <button class="btn nv">เข้าสู่ระบบ</button>
+      </form>
+      <a class="back" href="/"><iconify-icon icon="mdi:arrow-left"></iconify-icon> กลับหน้าเว็บไซต์</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

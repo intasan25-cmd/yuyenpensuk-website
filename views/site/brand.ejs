@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'ยี่ห้อ '+brandName, desc:'เครื่องปรับอากาศยี่ห้อ '+brandName+' ครบทุกรุ่นพร้อมราคา บริการติดตั้งโดยช่างประจำบริษัท ราคารวมค่าติดตั้งมาตรฐาน'}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<div class="crumb"><a href="/">หน้าแรก</a> / <a href="/products">สินค้า</a> / <b><%= brandName %></b></div>
+
+<section class="page-hero">
+  <div class="sec" style="padding:0">
+    <div class="crumb2"><a href="/">หน้าแรก</a> / <a href="/products">สินค้า</a> / <b><%= brandName %></b></div>
+    <span class="eyebrow-dot">Air Conditioner Brand</span>
+    <h1><%= brandName %></h1>
+    <p>เครื่องปรับอากาศยี่ห้อ <%= brandName %> ที่บริษัทเป็นตัวแทนจำหน่าย ทั้งหมด <%= products.length %> รุ่น พร้อมบริการติดตั้งโดยช่างประจำบริษัท</p>
+    <div class="hv4-cta" style="margin-top:20px">
+      <a class="btn am" href="/contact"><iconify-icon icon="mdi:message-text-outline"></iconify-icon> สอบถามรุ่นที่เหมาะกับคุณ</a>
+      <a class="btn gh" href="/products">ดูสินค้าทั้งหมด</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="chips">
+    <a class="chip" href="/products">ทุกยี่ห้อ</a>
+    <% brands.forEach(b=>{ %><a class="chip <%= b===brandName?'on':'' %>" href="/brands/<%= encodeURIComponent(b) %>"><%= b %></a><% }) %>
+  </div>
+
+  <div class="shead">
+    <div><span class="eyebrow-dot">Products</span><h2>เครื่องปรับอากาศ <%= brandName %></h2></div>
+    <a href="/products">กลับไปหน้าสินค้าทั้งหมด <iconify-icon icon="mdi:arrow-right"></iconify-icon></a>
+  </div>
+
+  <div class="g4">
+    <% products.forEach(p=>{ %>
+    <a class="card" href="/products/<%= p.id %>">
+      <div class="ph prod">
+        <% if(p.image){ %><img src="<%= p.image %>" alt="<%= p.name %>" onerror="this.style.display='none'"><% } else { %><iconify-icon class="phicon" icon="mdi:air-conditioner"></iconify-icon><% } %>
+        <% if(p.badge){ %><span class="tag" style="position:absolute;top:10px;left:10px;background:var(--pine);color:#fff"><%= p.badge %></span><% } %>
+      </div>
+      <div class="bd">
+        <span class="tag bl"><%= p.brand %></span>
+        <h3 style="margin-top:7px"><%= p.name %></h3>
+        <p><%= p.spec %></p>
+        <div class="price-row">
+          <span class="price <%= p.price ? '' : 'ask' %>"><%= p.price ? '฿'+p.price.toLocaleString() : 'สอบถามราคา' %></span>
+          <span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--pine)">ดูรุ่นนี้ <iconify-icon icon="mdi:arrow-right"></iconify-icon></span>
+        </div>
+      </div>
+    </a>
+    <% }) %>
+    <% if(!products.length){ %><p style="color:var(--mut)">ยังไม่มีสินค้ายี่ห้อนี้ในระบบ</p><% } %>
+  </div>
+
+  <div class="pnote" style="background:var(--frost);color:var(--pine)">
+    <iconify-icon icon="mdi:image-multiple-outline" style="color:var(--pine)"></iconify-icon>
+    <span>กดที่สินค้าเพื่อดูรายละเอียด สเปก และภาพเพิ่มเติม · ราคารวมค่าติดตั้งมาตรฐาน</span>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

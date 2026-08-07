@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'จัดการผู้ดูแลระบบ'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'จัดการผู้ดูแลระบบ'}) %>
+
+  <div class="note"><iconify-icon icon="mdi:lock-outline"></iconify-icon> เฉพาะผู้ดูแลระดับสูงสุดเท่านั้นที่จัดการบัญชีผู้ดูแลได้ · การเพิ่มบัญชีใหม่โดยไม่กำหนดรหัสผ่าน หรือการรีเซ็ตรหัสผ่าน ระบบจะสุ่มรหัสผ่านชั่วคราวให้อัตโนมัติ</div>
+  <% if (error) { %><div class="err-note"><%= error %></div><% } %>
+  <% if (typeof tempPw !== 'undefined' && tempPw) { %>
+  <div class="ok-note" style="display:flex;gap:10px;align-items:flex-start">
+    <iconify-icon icon="mdi:key-variant" style="margin-top:2px"></iconify-icon>
+    <div>
+      <b>รหัสผ่านชั่วคราวสำหรับ "<%= tempUser %>":</b>
+      <code style="background:rgba(0,0,0,.06);padding:3px 10px;border-radius:6px;font-family:var(--fm);font-weight:700;margin:0 6px"><%= tempPw %></code>
+      <div style="font-size:12px;margin-top:6px;opacity:.85">คัดลอกเก็บไว้และแจ้งให้เจ้าของบัญชีเปลี่ยนรหัสผ่านทันทีที่เข้าสู่ระบบครั้งแรก (ข้อความนี้จะแสดงครั้งเดียว)</div>
+    </div>
+  </div>
+  <% } %>
+
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:account-group-outline"></iconify-icon> ผู้ดูแลระบบ (<%= rows.length %>)</h3></div>
+    <div class="tblwrap"><table class="tbl">
+      <tr><th>ผู้ใช้งาน</th><th>ชื่อ</th><th>อีเมล</th><th>สิทธิ์</th><th>2FA</th><th>จัดการ</th></tr>
+      <% rows.forEach(a=>{ %>
+      <tr>
+        <td style="font-weight:600"><%= a.username %></td>
+        <td><%= a.name %></td>
+        <td style="color:var(--mut)"><%= a.email %></td>
+        <td><span class="tag <%= a.role==='superadmin'?'am2':'bl' %>"><%= a.role==='superadmin'?'ผู้ดูแลสูงสุด':'ผู้แก้ไขเนื้อหา' %></span></td>
+        <td><span class="tag <%= a.twofa_enabled?'gr':'gy' %>"><%= a.twofa_enabled?'เปิด':'ปิด' %></span></td>
+        <td><div class="act2">
+          <a class="mini ed" href="/admin/admins?edit=<%= a.id %>">แก้ไข</a>
+          <form method="post" action="/admin/admins/reset/<%= a.id %>" onsubmit="return confirm('รีเซ็ตรหัสผ่านของ <%= a.username %> เป็นรหัสสุ่มใหม่?')" style="display:inline"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="mini gy">รีเซ็ตรหัส</button></form>
+          <% if (a.id !== me.id) { %>
+          <form method="post" action="/admin/admins/delete/<%= a.id %>" onsubmit="return confirm('ลบผู้ดูแลนี้?')" style="display:inline"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="mini dl">ลบ</button></form>
+          <% } %>
+        </div></td>
+      </tr>
+      <% }) %>
+    </table></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph2"><h3><%- editing ? '<iconify-icon icon="mdi:pencil-outline"></iconify-icon> แก้ไขผู้ดูแล' : '<iconify-icon icon="mdi:plus"></iconify-icon> เพิ่มผู้ดูแล' %></h3><% if(editing){ %><a class="btn ln" href="/admin/admins">ยกเลิกการแก้ไข</a><% } %></div>
+    <form class="pb" method="post" action="/admin/admins/save"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="id" value="<%= editing ? editing.id : '' %>">
+      <div class="fgrid">
+        <div class="fld"><label>Username</label><input name="username" value="<%= editing ? editing.username : '' %>" required <%= editing?'readonly':'' %>></div>
+        <div class="fld"><label>ชื่อ–นามสกุล</label><input name="name" value="<%= editing ? editing.name : '' %>" required></div>
+        <div class="fld"><label>อีเมล</label><input type="email" name="email" value="<%= editing ? editing.email : '' %>"></div>
+        <div class="fld"><label>สิทธิ์</label>
+          <select name="role">
+            <option value="editor" <%= editing && editing.role==='editor'?'selected':'' %>>ผู้แก้ไขเนื้อหา — จัดการเนื้อหาทั่วไป</option>
+            <option value="superadmin" <%= editing && editing.role==='superadmin'?'selected':'' %>>ผู้ดูแลสูงสุด — จัดการได้ทุกอย่าง</option>
+          </select>
+        </div>
+        <div class="fld"><label>รหัสผ่าน <%= editing?'(เว้นว่างถ้าไม่เปลี่ยน)':'' %></label><input type="password" name="password" <%= editing?'':'required' %> minlength="8" placeholder="อย่างน้อย 8 ตัวอักษร"></div>
+      </div>
+      <button class="btn nv" style="margin-top:16px"><%= editing ? 'บันทึกการแก้ไข' : 'เพิ่มผู้ดูแล' %></button>
+    </form>
+  </div>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

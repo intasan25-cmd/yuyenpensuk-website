@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'ค่าบริการ'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'ค่าบริการ'}) %>
+
+  <% if (saved) { %><div class="ok-note"><iconify-icon icon="mdi:check-circle-outline"></iconify-icon> บันทึกค่าบริการเรียบร้อยแล้ว</div><% } %>
+
+  <form class="pb" method="post" action="/admin/pricing"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="panel">
+      <div class="ph2"><h3><iconify-icon icon="mdi:air-conditioner"></iconify-icon> ค่าบริการติดตั้งแอร์</h3></div>
+      <div class="fgrid">
+        <div class="fld full">
+          <label>ตารางราคา — หนึ่งบรรทัดต่อหนึ่งแถว คั่นแต่ละคอลัมน์ด้วย " | " (3 คอลัมน์: ประเภทแอร์ | ขนาด | ราคา)</label>
+          <textarea name="installRows" rows="6" placeholder="ติดผนัง (Wall Type) | 9,000 – 12,000 BTU | ฿2,500"><%= installRowsText %></textarea>
+        </div>
+        <div class="fld">
+          <label>สิ่งที่รวมในค่าติดตั้งมาตรฐาน (หนึ่งบรรทัดต่อหนึ่งรายการ)</label>
+          <textarea name="installIncluded" rows="5"><%= installIncludedText %></textarea>
+        </div>
+        <div class="fld">
+          <label>ค่าใช้จ่ายเพิ่มเติม (หนึ่งบรรทัดต่อหนึ่งรายการ)</label>
+          <textarea name="installExtra" rows="5"><%= installExtraText %></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="ph2"><h3><iconify-icon icon="mdi:air-filter"></iconify-icon> ค่าบริการล้างแอร์</h3></div>
+      <div class="fgrid">
+        <div class="fld full">
+          <label>ตารางราคา — หนึ่งบรรทัดต่อหนึ่งแถว คั่นแต่ละคอลัมน์ด้วย " | " (3 คอลัมน์: ประเภทแอร์ | ขนาด | ราคา)</label>
+          <textarea name="cleanRows" rows="5" placeholder="ติดผนัง (Wall Type) | ไม่เกิน 18,000 BTU | ฿500"><%= cleanRowsText %></textarea>
+        </div>
+        <div class="fld">
+          <label>ขั้นตอนการล้าง (หนึ่งบรรทัดต่อหนึ่งขั้นตอน)</label>
+          <textarea name="cleanSteps" rows="5"><%= cleanStepsText %></textarea>
+        </div>
+        <div class="fld">
+          <label>ส่วนลด/แพ็กเกจ (หนึ่งบรรทัดต่อหนึ่งรายการ)</label>
+          <textarea name="cleanPromo" rows="5"><%= cleanPromoText %></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn nv" style="margin-top:4px">บันทึกค่าบริการทั้งหมด</button>
+  </form>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

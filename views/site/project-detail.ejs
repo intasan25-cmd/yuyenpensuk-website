@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:p.title, desc:p.description.slice(0,155), ogImage:p.image||''}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<div class="crumb"><a href="/">หน้าแรก</a> / <a href="/projects">ผลงาน</a> / <b><%= p.title %></b></div>
+
+<section class="sec">
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <span class="tag am2"><iconify-icon icon="mdi:calendar-blank-outline"></iconify-icon> ปี <%= p.year %></span>
+    <span class="tag bl"><iconify-icon icon="mdi:hammer-wrench"></iconify-icon> <%= p.category %></span>
+    <% if (p.place) { %><span class="tag gy"><iconify-icon icon="mdi:map-marker-outline"></iconify-icon> <%= p.place %></span><% } %>
+  </div>
+
+  <h1 style="font-size:clamp(22px,3.2vw,30px);margin:14px 0 20px"><%= p.title %></h1>
+
+  <% if (p.image) { %>
+  <div class="ph nv h300 zoomable" style="border-radius:3px;margin-bottom:24px" data-lightbox="project" data-src="<%= p.image %>">
+    <img src="<%= p.image %>" alt="<%= p.title %>" onerror="this.style.display='none'">
+  </div>
+  <% } %>
+
+  <div class="g2" style="gap:clamp(24px,4vw,48px);align-items:start">
+    <div>
+      <p style="color:var(--mut);line-height:1.9;white-space:pre-line"><%= p.description %></p>
+      <div style="margin-top:24px"><a class="btn ln" href="/projects"><iconify-icon icon="mdi:arrow-left"></iconify-icon> กลับหน้าผลงาน</a></div>
+    </div>
+    <div>
+      <span class="eyebrow-dot">ข้อมูลโครงการ</span>
+      <div class="dl" style="margin-top:12px">
+        <div class="dlr" style="grid-template-columns:1fr;gap:3px"><div class="k">ประเภทงาน</div><div class="v"><%= p.category %></div></div>
+        <% if (p.place) { %><div class="dlr" style="grid-template-columns:1fr;gap:3px"><div class="k">สถานที่</div><div class="v"><%= p.place %></div></div><% } %>
+        <div class="dlr" style="grid-template-columns:1fr;gap:3px"><div class="k">ปีที่ส่งมอบ</div><div class="v"><%= p.year %></div></div>
+      </div>
+      <a class="btn nv" style="margin-top:18px;width:100%;justify-content:center" href="/contact"><iconify-icon icon="mdi:message-text-outline"></iconify-icon> ปรึกษางานลักษณะนี้</a>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

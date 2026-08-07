@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'ไม่พบหน้านี้', desc:'ไม่พบหน้าที่ต้องการ'}) %></head>
+<body>
+<%- include('../partials/site-header',{active:''}) %>
+<section class="sec" style="text-align:center;padding-top:80px;padding-bottom:80px">
+  <iconify-icon icon="mdi:file-search-outline" style="font-size:56px;color:var(--pine-l)"></iconify-icon>
+  <h2 style="margin:16px 0 8px">ไม่พบหน้าที่ต้องการ (404)</h2>
+  <p style="color:var(--mut)">หน้านี้อาจถูกลบหรือย้ายไปแล้ว</p>
+  <div style="margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a class="btn nv" href="/"><iconify-icon icon="mdi:home-outline"></iconify-icon> กลับหน้าแรก</a>
+    <a class="btn ln" href="/products">ดูสินค้า</a>
+  </div>
+</section>
+<%- include('../partials/site-footer') %>
+</body>
+</html>

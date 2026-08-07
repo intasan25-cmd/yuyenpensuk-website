@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'บริการของเรา', desc:'บริการติดตั้งแอร์ ล้าง ซ่อม เติมน้ำยา จำหน่ายแอร์และอะไหล่ และงานไฟฟ้าที่เกี่ยวกับระบบปรับอากาศ โดยช่างผู้ชำนาญ'}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<section class="page-hero">
+  <div class="sec" style="padding:0">
+    <div class="crumb2"><a href="/">หน้าแรก</a> / <b>บริการของเรา</b></div>
+    <span class="eyebrow-dot">Our Services</span>
+    <h1>งานบริการของเรา</h1>
+    <p>รับงานเครื่องปรับอากาศครบวงจร เลือกดูรายละเอียดของแต่ละบริการ หรือติดต่อทีมงานเพื่อให้เข้าสำรวจหน้างานก่อนเสนอราคา</p>
+  </div>
+</section>
+
+<section class="sec">
+
+  <form class="srch" method="get" action="/services">
+    <div class="inpw">
+      <iconify-icon icon="mdi:magnify"></iconify-icon>
+      <input name="q" value="<%= q %>" placeholder="ค้นหาบริการ เช่น ติดตั้งแอร์, ล้างแอร์, งานไฟฟ้า">
+    </div>
+    <button class="btn nv">ค้นหา</button>
+  </form>
+
+  <div class="g2">
+    <% const svcColors=['#0E4D6B','#2C6B4C','#8a6224','var(--pine)']; %>
+    <% services.forEach((s,i)=>{ %>
+    <a class="card" href="/services/<%= s.id %>">
+      <div class="ph h180"><% if(s.image){ %><img src="<%= s.image %>" alt="<%= s.title %>" onerror="this.style.display='none'"><% } else { %><iconify-icon class="phicon" icon="<%= s.icon %>"></iconify-icon><% } %></div>
+      <div class="bd">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="width:34px;height:34px;border-radius:50%;background:<%= svcColors[i%4] %>;display:grid;place-items:center;flex:none">
+            <iconify-icon icon="<%= s.icon %>" style="color:#fff;font-size:19px"></iconify-icon>
+          </span>
+          <h3 style="margin:0"><%= s.title %></h3>
+        </div>
+        <p style="margin-top:10px"><%= s.description %></p>
+        <div style="margin-top:12px;display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--pine)">
+          ดูรายละเอียด <iconify-icon icon="mdi:arrow-right"></iconify-icon>
+        </div>
+      </div>
+    </a>
+    <% }) %>
+    <% if(!services.length){ %><p style="color:var(--mut)">ไม่พบบริการที่ค้นหา ลองใช้คำอื่น</p><% } %>
+  </div>
+</section>
+
+<section class="sec alt ctasec">
+  <h2>ต้องการให้ประเมินหน้างานก่อน?</h2>
+  <p>ทีมงานเข้าสำรวจและเสนอราคาโดยไม่มีค่าใช้จ่าย · โทร <%= company.phone %></p>
+  <a class="btn am" href="/contact"><iconify-icon icon="mdi:calendar-check-outline"></iconify-icon> นัดหมายทีมงาน</a>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

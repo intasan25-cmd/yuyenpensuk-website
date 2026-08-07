@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'สินค้า', desc:'จำหน่ายเครื่องปรับอากาศของแท้ทุกยี่ห้อ DAIKIN MITSUBISHI CARRIER PANASONIC LG SAIJO DENKI พร้อมราคาและบริการติดตั้งโดยช่างประจำบริษัท'}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<section class="page-hero">
+  <div class="sec" style="padding:0">
+    <div class="crumb2"><a href="/">หน้าแรก</a> / <b>สินค้า</b></div>
+    <span class="eyebrow-dot">Air Conditioners</span>
+    <h1>เครื่องปรับอากาศ</h1>
+    <p>จำหน่ายแอร์ของแท้ทุกยี่ห้อ พร้อมบริการติดตั้งโดยช่างประจำบริษัท ราคารวมค่าติดตั้งมาตรฐาน</p>
+  </div>
+</section>
+
+<section class="sec">
+
+  <form class="srch" method="get" action="/products">
+    <div class="inpw">
+      <iconify-icon icon="mdi:magnify"></iconify-icon>
+      <input name="q" value="<%= q %>" placeholder="ค้นหาด้วยชื่อรุ่นหรือขนาดทำความเย็น">
+    </div>
+    <% if(brand){ %><input type="hidden" name="brand" value="<%= brand %>"><% } %>
+    <button class="btn nv">ค้นหา</button>
+  </form>
+
+  <div class="chips">
+    <a class="chip <%= !brand?'on':'' %>" href="/products">ทุกยี่ห้อ</a>
+    <% brands.forEach(b=>{ %><a class="chip <%= brand===b?'on':'' %>" href="/brands/<%= encodeURIComponent(b) %>"><%= b %></a><% }) %>
+  </div>
+
+  <div class="g4">
+    <% products.forEach(p=>{ %>
+    <a class="card" href="/products/<%= p.id %>">
+      <div class="ph prod">
+        <% if(p.image){ %><img src="<%= p.image %>" alt="<%= p.name %>" onerror="this.style.display='none'"><% } else { %><iconify-icon class="phicon" icon="mdi:air-conditioner"></iconify-icon><% } %>
+        <% if(p.badge){ %><span class="tag" style="position:absolute;top:10px;left:10px;background:var(--pine);color:#fff"><%= p.badge %></span><% } %>
+      </div>
+      <div class="bd">
+        <span class="tag bl"><%= p.brand %></span>
+        <h3 style="margin-top:7px"><%= p.name %></h3>
+        <p><%= p.spec %></p>
+        <div class="price-row">
+          <span class="price <%= p.price ? '' : 'ask' %>"><%= p.price ? '฿'+p.price.toLocaleString() : 'สอบถามราคา' %></span>
+          <span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--pine)">ดูรายละเอียด <iconify-icon icon="mdi:arrow-right"></iconify-icon></span>
+        </div>
+      </div>
+    </a>
+    <% }) %>
+    <% if(!products.length){ %><p style="color:var(--mut)">ไม่พบสินค้าที่ค้นหา</p><% } %>
+  </div>
+
+  <div class="pnote" style="background:var(--frost);color:var(--pine)">
+    <iconify-icon icon="mdi:information-outline" style="color:var(--pine)"></iconify-icon>
+    <span>ราคารวมค่าติดตั้งมาตรฐานแล้ว · กดที่สินค้าเพื่อดูภาพเพิ่มเติมและสเปกทั้งหมด</span>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

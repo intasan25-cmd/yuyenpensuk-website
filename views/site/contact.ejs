@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'ติดต่อเรา', desc:'ติดต่อ อยู่เย็นเป็นสุข วิศวกรรม โทร 02-000-0000 Line @yuyenpensuk ที่อยู่ 594/151 ถนนหทัยราษฎร์ เขตคลองสามวา กรุงเทพฯ 10510'}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<section class="page-hero">
+  <div class="sec" style="padding:0">
+    <div class="crumb2"><a href="/">หน้าแรก</a> / <b>ติดต่อเรา</b></div>
+    <span class="eyebrow-dot">Contact</span>
+    <h1>ติดต่อและสั่งซื้อ</h1>
+    <p>สอบถามรุ่นแอร์ ขอใบเสนอราคา หรือนัดหมายติดตั้งได้ทางโทรศัพท์และไลน์</p>
+  </div>
+</section>
+
+<section class="sec">
+
+  <div class="g2" style="gap:24px;align-items:start">
+    <div style="display:grid;gap:12px">
+      <div class="ctc">
+        <h3><iconify-icon icon="mdi:map-marker-outline"></iconify-icon> ที่อยู่บริษัท (สำนักงานใหญ่)</h3>
+        <p><%= company.address %></p>
+        <p style="font-weight:600;color:var(--pine);margin-top:6px">เลขประจำตัวผู้เสียภาษี <%= company.tax_id %></p>
+      </div>
+      <div class="g2">
+        <div class="ctc"><h3><iconify-icon icon="mdi:phone-outline"></iconify-icon> โทรศัพท์</h3><p><a href="tel:<%= company.phone %>" style="color:var(--pine-d);font-weight:600"><%= company.phone %></a></p></div>
+        <div class="ctc"><h3><iconify-icon icon="mdi:email-outline"></iconify-icon> อีเมล</h3><p><a href="mailto:<%= company.email %>"><%= company.email %></a></p></div>
+        <div class="ctc"><h3><iconify-icon icon="mdi:facebook"></iconify-icon> Facebook</h3><p><a href="<%= company.facebook %>" target="_blank" rel="noopener">อยู่เย็นเป็นสุข วิศวกรรม</a></p></div>
+        <div class="ctc"><h3><iconify-icon icon="mdi:chat-outline"></iconify-icon> Line OA</h3><p><%= company.line %></p></div>
+      </div>
+      <div class="ctc">
+        <h3><iconify-icon icon="mdi:clock-outline"></iconify-icon> เวลาทำการ</h3>
+        <p>จันทร์ – เสาร์  08:00 – 17:30 น.</p>
+      </div>
+    </div>
+
+    <div class="map">
+      <iframe src="<%= mapEmbedUrl %>" loading="lazy" title="แผนที่บริษัท" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <a class="map-cta" href="<%= mapDirectionsUrl %>" target="_blank" rel="noopener">
+        <iconify-icon icon="mdi:directions"></iconify-icon> นำทางไปที่นี่
+      </a>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

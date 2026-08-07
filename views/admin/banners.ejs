@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'จัดการแบนเนอร์'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'จัดการแบนเนอร์'}) %>
+
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:image-outline"></iconify-icon> แบนเนอร์หน้าแรก (<%= rows.length %>)</h3></div>
+    <div class="tblwrap"><table class="tbl">
+      <tr><th>รูปแบนเนอร์</th><th>ชื่อ</th><th>ลำดับ</th><th>แสดงผล</th><th>จัดการ</th></tr>
+      <% rows.sort((a,b)=>a.sort-b.sort).forEach(b=>{ %>
+      <tr>
+        <td><span class="thumb" style="width:80px"><% if(b.image){ %><img src="<%= b.image %>"><% } else { %><iconify-icon icon="mdi:image-outline"></iconify-icon><% } %></span></td>
+        <td style="font-weight:600"><%= b.title %></td>
+        <td><%= b.sort %></td>
+        <td>
+          <form method="post" action="/admin/banners/toggle/<%= b.id %>" style="display:inline"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="tglbtn <%= b.active?'on':'' %>" title="เปิด/ปิดการแสดงผล" aria-label="เปิด/ปิดการแสดงผล"></button>
+          </form>
+        </td>
+        <td><div class="act2">
+          <a class="mini ed" href="/admin/banners?edit=<%= b.id %>">แก้ไข</a>
+          <form method="post" action="/admin/banners/delete/<%= b.id %>" onsubmit="return confirm('ลบแบนเนอร์นี้?')" style="display:inline"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="mini dl">ลบ</button></form>
+        </div></td>
+      </tr>
+      <% }) %>
+    </table></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph2"><h3><%- editing ? '<iconify-icon icon="mdi:pencil-outline"></iconify-icon> แก้ไขแบนเนอร์' : '<iconify-icon icon="mdi:plus"></iconify-icon> เพิ่มแบนเนอร์' %></h3><% if(editing){ %><a class="btn ln" href="/admin/banners">ยกเลิกการแก้ไข</a><% } %></div>
+    <form class="pb" method="post" action="/admin/banners/save" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="id" value="<%= editing ? editing.id : '' %>">
+      <div class="fgrid">
+        <div class="fld"><label>ชื่อแบนเนอร์</label><input name="title" value="<%= editing ? editing.title : '' %>" required></div>
+        <div class="fld"><label>ลำดับการแสดง</label><input type="number" name="sort" min="1" value="<%= editing ? editing.sort : rows.length+1 %>"></div>
+        <div class="fld"><label>รูปภาพ</label><input type="file" name="image" accept="image/*"><div class="hint">อัตราส่วน 16:9 · แนะนำขนาด 1920×1080px หรือ 1920×800px (ใช้เป็นพื้นหลังสไลด์หน้าแรก)</div></div>
+        <div class="fld"><label class="chkrow" style="margin-top:26px"><input type="checkbox" name="active" <%= !editing || editing.active ? 'checked' : '' %>> เปิดการแสดงผล</label></div>
+      </div>
+      <button class="btn nv" style="margin-top:16px"><%= editing ? 'บันทึกการแก้ไข' : 'เพิ่มแบนเนอร์' %></button>
+    </form>
+  </div>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

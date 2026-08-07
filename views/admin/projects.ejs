@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'จัดการผลงาน'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'จัดการผลงาน'}) %>
+
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:office-building-marker-outline"></iconify-icon> รายการผลงาน (<%= rows.length %>)</h3></div>
+    <div class="tblwrap"><table class="tbl">
+      <tr><th>รูป</th><th>ชื่อโครงการ</th><th>ปี</th><th>ประเภทงาน</th><th>จัดการ</th></tr>
+      <% rows.forEach(p=>{ %>
+      <tr>
+        <td><span class="thumb"><% if(p.image){ %><img src="<%= p.image %>"><% } else { %><iconify-icon icon="mdi:office-building-outline"></iconify-icon><% } %></span></td>
+        <td style="font-weight:600"><%= p.title %></td>
+        <td style="color:var(--mut)"><%= p.year %></td>
+        <td style="color:var(--mut)"><%= p.category %></td>
+        <td><div class="act2">
+          <a class="mini ed" href="/admin/projects?edit=<%= p.id %>">แก้ไข</a>
+          <form method="post" action="/admin/projects/delete/<%= p.id %>" onsubmit="return confirm('ลบผลงานนี้?')" style="display:inline"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="mini dl">ลบ</button></form>
+        </div></td>
+      </tr>
+      <% }) %>
+    </table></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph2"><h3><%- editing ? '<iconify-icon icon="mdi:pencil-outline"></iconify-icon> แก้ไขผลงาน' : '<iconify-icon icon="mdi:plus"></iconify-icon> เพิ่มผลงาน' %></h3><% if(editing){ %><a class="btn ln" href="/admin/projects">ยกเลิกการแก้ไข</a><% } %></div>
+    <form class="pb" method="post" action="/admin/projects/save" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="id" value="<%= editing ? editing.id : '' %>">
+      <div class="fgrid">
+        <div class="fld"><label>ชื่อโครงการ</label><input name="title" value="<%= editing ? editing.title : '' %>" required></div>
+        <div class="fld"><label>รูปภาพ</label><input type="file" name="image" accept="image/*"></div>
+        <div class="fld"><label>ปีที่ดำเนินงาน</label><input name="year" value="<%= editing ? editing.year : '' %>" placeholder="เช่น 2568"></div>
+        <div class="fld"><label>ประเภทงาน</label><input name="category" value="<%= editing ? editing.category : '' %>" placeholder="เช่น งานติดตั้งแอร์"></div>
+        <div class="fld"><label>สถานที่</label><input name="place" value="<%= editing ? editing.place : '' %>" placeholder="เช่น พระราม 9 กรุงเทพมหานคร"></div>
+        <div class="fld full"><label>รายละเอียด</label><textarea name="description"><%= editing ? editing.description : '' %></textarea></div>
+      </div>
+      <button class="btn nv" style="margin-top:16px"><%= editing ? 'บันทึกการแก้ไข' : 'เพิ่มผลงาน' %></button>
+    </form>
+  </div>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# ข้อมูลจริง + ไฟล์อัปโหลด (ห้ามหลุดขึ้น git เด็ดขาด — มีรหัสผ่านที่ hash แล้ว + ข้อมูลลูกค้า)
+data/
+uploads/*
+!uploads/.gitkeep
+
+# ตัวแปรแวดล้อม / ความลับ
+.env
+.env.*
+!.env.example
+
+# log
+npm-debug.log*
+*.log
+
+# ไฟล์ระบบปฏิบัติการ / เครื่องมือแก้ไขโค้ด
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

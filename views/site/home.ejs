@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'หน้าแรก', desc:'ติดตั้ง ล้าง ซ่อม และจำหน่ายเครื่องปรับอากาศทุกยี่ห้อ DAIKIN MITSUBISHI CARRIER พร้อมงานไฟฟ้าที่เกี่ยวข้อง เขตคลองสามวา กรุงเทพฯ ประเมินหน้างานฟรี โทร ' + company.phone}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+
+<!-- ===== HERO v4: ไล่เฉดเย็น + ป้ายลอยรอบวงกลม ===== -->
+<section class="hero-v4">
+  <div class="sec" style="padding-top:0;padding-bottom:0">
+    <div class="hv4-grid">
+      <div>
+        <span class="hv4-badge"><span class="dot"></span> บริการแอร์ครบวงจร เขตกรุงเทพฯ และปริมณฑล</span>
+        <h1>ติดตั้ง ล้าง ซ่อม<br>และจำหน่าย<em>เครื่องปรับอากาศ</em></h1>
+        <p>ดูแลเครื่องปรับอากาศครบวงจร ตั้งแต่เลือกซื้อ ติดตั้ง ดูแลรักษา จนถึงงานไฟฟ้าที่เกี่ยวข้อง โดยทีมช่างผู้ชำนาญ</p>
+        <div class="hv4-cta">
+          <a class="btn am" href="/products"><iconify-icon icon="mdi:cart-outline"></iconify-icon> เลือกซื้อแอร์</a>
+          <a class="btn gh" href="/services">ดูบริการทั้งหมด</a>
+        </div>
+        <div class="hv4-stats">
+          <div class="s"><div class="n">6</div><div class="l">ยี่ห้อแอร์ที่จำหน่าย</div></div>
+          <div class="s"><div class="n">24 ชม.</div><div class="l">นัดหมายเข้าหน้างาน</div></div>
+          <div class="s"><div class="n">5 ปี</div><div class="l">รับประกันคอมเพรสเซอร์</div></div>
+        </div>
+      </div>
+      <div class="hv4-visual">
+        <div class="hv4-orb"></div>
+        <div class="hv4-ico" style="top:6%;left:38%;background:linear-gradient(135deg,#0E4D6B,#3DDBD9)"><iconify-icon icon="mdi:air-conditioner"></iconify-icon></div>
+        <div class="hv4-ico" style="top:42%;left:4%;background:linear-gradient(135deg,#8a6224,#D7BE8B)"><iconify-icon icon="mdi:snowflake"></iconify-icon></div>
+        <div class="hv4-ico" style="top:60%;left:70%;background:linear-gradient(135deg,#0B2340,#2C6B4C)"><iconify-icon icon="mdi:flash-outline"></iconify-icon></div>
+        <div class="hv4-ico" style="top:14%;left:78%;background:linear-gradient(135deg,var(--pine-d),var(--pine-l))"><iconify-icon icon="mdi:wrench-outline"></iconify-icon></div>
+        <div class="hv4-card" style="top:30%;left:52%"><iconify-icon icon="mdi:shield-check-outline"></iconify-icon> รับประกันงานติดตั้ง</div>
+        <div class="hv4-card" style="top:76%;left:20%"><iconify-icon icon="mdi:star-outline"></iconify-icon> ลูกค้าไว้วางใจกว่า 500+ งาน/ปี</div>
+      </div>
+    </div>
+  </div>
+  <% if (banners.length) { %>
+  <div class="sec" style="padding-top:28px;padding-bottom:0">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1">
+      <% banners.forEach(b=>{ %><span class="hv4-badge"><iconify-icon icon="mdi:bullhorn-outline" style="color:var(--cyan)"></iconify-icon> <%= b.title %></span><% }) %>
+    </div>
+  </div>
+  <% } %>
+</section>
+
+<!-- ===== ทำไมต้องเลือกเรา: แถวสลับซ้าย-ขวา ===== -->
+<section class="sec alt">
+  <div class="shead"><div><span class="eyebrow-dot">Why Choose Us</span><h2>จุดเด่นของบริษัท</h2></div></div>
+
+  <div class="alt-row">
+    <div class="gfx"><div class="shape"><div class="c1"></div><div class="c2"></div></div></div>
+    <div class="txt"><span class="num">01</span><span class="eyebrow-dot">Professional Team</span><h3>ทีมช่างมืออาชีพ</h3><p>ชำนาญงานแอร์โดยเฉพาะ ผ่านการอบรมจริง ไม่ใช่ช่างรับเหมาทั่วไป</p></div>
+  </div>
+  <div class="alt-row rev">
+    <div class="gfx"><div class="shape"><div class="c1" style="background:radial-gradient(circle,var(--brass),transparent 70%)"></div><div class="c2" style="background:var(--brass)"></div></div></div>
+    <div class="txt"><span class="num" style="background:var(--brass)">02</span><span class="eyebrow-dot">Genuine Products</span><h3>แอร์ของแท้ 100%</h3><p>ตัวแทนจำหน่ายแบรนด์ชั้นนำ 6 ยี่ห้อ พร้อมใบรับประกันจากศูนย์</p></div>
+  </div>
+  <div class="alt-row">
+    <div class="gfx"><div class="shape"><div class="c1" style="background:radial-gradient(circle,var(--pine-l),transparent 70%)"></div><div class="c2" style="background:var(--pine-l)"></div></div></div>
+    <div class="txt"><span class="num" style="background:var(--pine-l)">03</span><span class="eyebrow-dot">Fast Response</span><h3>บริการรวดเร็ว</h3><p>นัดหมายเข้าหน้างานภายใน 24 ชั่วโมง แจ้งราคาก่อนเริ่มงานทุกครั้ง</p></div>
+  </div>
+</section>
+
+<!-- ===== บริการ: การ์ดสีทึบ 4 บล็อก ===== -->
+<section class="sec">
+  <div class="shead"><div><span class="eyebrow-dot">Our Services</span><h2>งานบริการของเรา</h2></div><a href="/services">ดูทั้งหมด <iconify-icon icon="mdi:arrow-right"></iconify-icon></a></div>
+  <div class="svc-blocks">
+    <% const cc=['c1','c2','c3','c4']; services.forEach((s,i)=>{ %>
+    <a class="svc-block <%= cc[i%4] %>" href="/services/<%= s.id %>">
+      <div class="wm"><%= String(i+1).padStart(2,'0') %></div>
+      <iconify-icon class="ico" icon="<%= s.icon %>"></iconify-icon>
+      <h3><%= s.title %></h3>
+      <p><%= s.description.slice(0,56) %>...</p>
+    </a>
+    <% }) %>
+  </div>
+</section>
+
+<!-- ===== ส่วนซื้อขายแอร์ ===== -->
+<section class="sec alt">
+  <div class="shead"><div><span class="eyebrow-dot">Air Conditioners</span><h2>แอร์ขายดี แนะนำ</h2></div><a href="/products">ดูแอร์ทั้งหมด <iconify-icon icon="mdi:arrow-right"></iconify-icon></a></div>
+  <div class="g4">
+    <% products.forEach(p=>{ %>
+    <a class="card" href="/products/<%= p.id %>">
+      <div class="ph prod">
+        <% if(p.image){ %><img src="<%= p.image %>" alt="<%= p.name %>" onerror="this.style.display='none'"><% } else { %><iconify-icon class="phicon" icon="mdi:air-conditioner"></iconify-icon><% } %>
+        <% if(p.badge){ %><span class="tag" style="position:absolute;top:10px;left:10px;background:var(--pine);color:#fff"><%= p.badge %></span><% } %>
+      </div>
+      <div class="bd">
+        <span class="tag bl"><%= p.brand %></span>
+        <h3 style="margin-top:7px"><%= p.name %></h3>
+        <p><%= p.spec.split('·')[0].trim() %></p>
+        <div class="price-row">
+          <span class="price <%= p.price ? '' : 'ask' %>"><%= p.price ? '฿'+p.price.toLocaleString() : 'สอบถามราคา' %></span>
+          <iconify-icon icon="mdi:arrow-right-circle-outline" style="color:var(--brass);font-size:19px"></iconify-icon>
+        </div>
+      </div>
+    </a>
+    <% }) %>
+  </div>
+  <div class="pnote" style="background:var(--frost);color:var(--pine)">
+    <iconify-icon icon="mdi:shield-check-outline" style="color:var(--pine)"></iconify-icon>
+    <span>ราคารวมค่าติดตั้งมาตรฐาน · ผ่อน 0% นานสูงสุด 10 เดือน · รับประกันคอมเพรสเซอร์ 5 ปี — <a href="/payment" style="font-weight:600;color:var(--pine);text-decoration:underline">ดูวิธีชำระเงิน</a></span>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="shead"><div><span class="eyebrow-dot">Selected Works</span><h2>ผลงานติดตั้งที่ผ่านมา</h2></div><a href="/projects">ดูทั้งหมด <iconify-icon icon="mdi:arrow-right"></iconify-icon></a></div>
+  <div class="g3">
+    <% projects.forEach(p=>{ %>
+    <a class="card" href="/projects/<%= p.id %>">
+      <div class="ph nv h150"><% if(p.image){ %><img src="<%= p.image %>" alt="<%= p.title %>" onerror="this.style.display='none'"><% } else { %><iconify-icon class="phicon" icon="mdi:office-building-outline"></iconify-icon><% } %></div>
+      <div class="bd"><h3><%= p.title %></h3><p><%= p.place %> · <%= p.year %></p></div>
+    </a>
+    <% }) %>
+  </div>
+</section>
+
+<!-- ===== แบรนด์ + สถิติสีสัน ===== -->
+<section class="sec alt">
+  <div class="shead"><div><span class="eyebrow-dot">Brands</span><h2>แบรนด์ที่จำหน่าย</h2></div><a href="/products">ดูสินค้าทั้งหมด <iconify-icon icon="mdi:arrow-right"></iconify-icon></a></div>
+  <div class="brandrow" style="margin-bottom:32px"><% brands.forEach(b=>{ %><a class="brand" href="/brands/<%= encodeURIComponent(b) %>"><%= b %></a><% }) %></div>
+  <div class="stat-colors">
+    <div class="c"><div class="n"><%= brands.length %>+</div><div class="l">แบรนด์ชั้นนำ</div></div>
+    <div class="c"><div class="n"><%= products.length %>+</div><div class="l">รุ่นให้เลือก</div></div>
+    <div class="c"><div class="n"><%= projects.length %>+</div><div class="l">ผลงานติดตั้ง</div></div>
+    <div class="c"><div class="n">9+</div><div class="l">ปีประสบการณ์</div></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="shead"><div><span class="eyebrow-dot">Pricing &amp; Payment</span><h2>ค่าบริการและการชำระเงิน</h2></div></div>
+  <div class="g3">
+    <a class="feat" href="/pricing-install" style="display:block"><div class="icowrap"><iconify-icon icon="mdi:currency-usd"></iconify-icon></div><h3>ค่าบริการติดตั้งแอร์</h3><p>อัตราค่าติดตั้งตามขนาดและประเภทเครื่อง</p></a>
+    <a class="feat" href="/pricing-clean" style="display:block"><div class="icowrap"><iconify-icon icon="mdi:air-filter"></iconify-icon></div><h3>ค่าบริการล้างแอร์</h3><p>อัตราค่าล้างพร้อมส่วนลดล้างหลายเครื่อง</p></a>
+    <a class="feat" href="/payment" style="display:block"><div class="icowrap"><iconify-icon icon="mdi:credit-card-outline"></iconify-icon></div><h3>วิธีการชำระเงิน</h3><p>โอนธนาคาร พร้อมเพย์ เงินสด หรือผ่อน 0%</p></a>
+  </div>
+</section>
+
+<section class="sec alt ctasec">
+  <h2>พร้อมให้คำปรึกษาฟรี ไม่มีค่าใช้จ่าย</h2>
+  <p>โทร <%= company.phone %> · Line: <%= company.line %> · จันทร์–เสาร์ 8:00–17:30</p>
+  <a class="btn am" href="/contact"><iconify-icon icon="mdi:phone-outline"></iconify-icon> ติดต่อเรา</a>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

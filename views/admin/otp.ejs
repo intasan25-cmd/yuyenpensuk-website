@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'ยืนยันตัวตน 2 ขั้นตอน'}) %></head>
+<body>
+<div class="auth2">
+  <div class="side">
+    <div class="mk2"><iconify-icon icon="mdi:shield-lock-outline"></iconify-icon></div>
+    <h1>ยืนยันตัวตน 2 ขั้นตอน</h1>
+    <p>เพื่อความปลอดภัยของข้อมูลบริษัท กรุณายืนยันตัวตนด้วยรหัส OTP จากแอป Authenticator ก่อนเข้าใช้งานระบบ</p>
+    <div class="fx"><span><iconify-icon icon="mdi:cellphone-key"></iconify-icon> Google / Microsoft Authenticator</span></div>
+  </div>
+  <div class="form">
+    <div class="fcard">
+      <h2>กรอกรหัส OTP</h2>
+      <p class="sub">กรอกรหัส 6 หลักจากแอป Authenticator ของคุณ</p>
+      <% if (error) { %><div class="err-note"><iconify-icon icon="mdi:alert-circle-outline"></iconify-icon> <%= error %></div><% } %>
+      <form method="post" action="/admin/otp"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="otpin"><input name="token" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="••••••" required autofocus autocomplete="one-time-code"></div>
+        <button class="btn nv">ยืนยัน (Verify)</button>
+      </form>
+      <a class="back" href="/admin/login"><iconify-icon icon="mdi:arrow-left"></iconify-icon> กลับไปหน้าเข้าสู่ระบบ</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

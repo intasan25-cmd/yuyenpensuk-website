@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/admin-head',{title:'จัดการบริการ'}) %></head>
+<body>
+<div class="cms">
+<%- include('../partials/admin-shell-top',{heading:'จัดการบริการ'}) %>
+
+  <div class="panel">
+    <div class="ph2"><h3><iconify-icon icon="mdi:cog-outline"></iconify-icon> รายการบริการ (<%= rows.length %>)</h3></div>
+    <div class="tblwrap"><table class="tbl">
+      <tr><th>รูปภาพ</th><th>ชื่อบริการ</th><th>อัปเดตล่าสุด</th><th>จัดการ</th></tr>
+      <% rows.forEach(s=>{ %>
+      <tr>
+        <td><span class="thumb"><% if(s.image){ %><img src="<%= s.image %>"><% } else { %><iconify-icon icon="<%= s.icon || 'mdi:air-conditioner' %>"></iconify-icon><% } %></span></td>
+        <td style="font-weight:600"><%= s.title %></td>
+        <td style="color:var(--mut)"><%= s.updated_at.slice(0,10) %></td>
+        <td><div class="act2">
+          <a class="mini ed" href="/admin/services?edit=<%= s.id %>">แก้ไข</a>
+          <form method="post" action="/admin/services/delete/<%= s.id %>" onsubmit="return confirm('ลบบริการนี้?')" style="display:inline"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="mini dl">ลบ</button></form>
+        </div></td>
+      </tr>
+      <% }) %>
+    </table></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph2"><h3><%- editing ? '<iconify-icon icon="mdi:pencil-outline"></iconify-icon> แก้ไขบริการ' : '<iconify-icon icon="mdi:plus"></iconify-icon> เพิ่มบริการ' %></h3><% if(editing){ %><a class="btn ln" href="/admin/services">ยกเลิกการแก้ไข</a><% } %></div>
+    <form class="pb" method="post" action="/admin/services/save" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="id" value="<%= editing ? editing.id : '' %>">
+      <div class="fgrid">
+        <div class="fld"><label>ชื่อบริการ</label><input name="title" value="<%= editing ? editing.title : '' %>" required></div>
+        <div class="fld"><label>ไอคอน (Iconify) เช่น mdi:air-conditioner</label><input name="icon" value="<%= editing ? editing.icon : 'mdi:air-conditioner' %>"></div>
+        <div class="fld full"><label>รายละเอียด</label><textarea name="description" required><%= editing ? editing.description : '' %></textarea></div>
+        <div class="fld full"><label>ขั้นตอนการทำงาน (หนึ่งบรรทัดต่อหนึ่งขั้นตอน แสดงในหน้ารายละเอียดบริการ)</label><textarea name="steps" rows="5" placeholder="สำรวจหน้างานและวัดพื้นที่&#10;แนะนำรุ่นและเสนอราคา&#10;ติดตั้งตามนัดหมาย"><%= editing && editing.steps ? editing.steps.join('\n') : '' %></textarea></div>
+        <div class="fld"><label>รูปภาพ</label><input type="file" name="image" accept="image/*"></div>
+      </div>
+      <button class="btn nv" style="margin-top:16px"><%= editing ? 'บันทึกการแก้ไข' : 'เพิ่มบริการ' %></button>
+    </form>
+  </div>
+
+<%- include('../partials/admin-shell-bottom') %>
+</div>
+</body>
+</html>

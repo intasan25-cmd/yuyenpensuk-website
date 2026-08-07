@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'ค่าบริการติดตั้งแอร์', desc:'อัตราค่าติดตั้งเครื่องปรับอากาศตามขนาด BTU และประเภท ติดผนัง แขวน ฝังฝ้า ราคารวมอุปกรณ์ติดตั้งมาตรฐาน'}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<section class="page-hero">
+  <div class="sec" style="padding:0">
+    <div class="crumb2"><a href="/">หน้าแรก</a> / <a href="/pricing-install">ค่าบริการ</a> / <b>ติดตั้งแอร์</b></div>
+    <span class="eyebrow-dot">Installation Pricing</span>
+    <h1>ค่าบริการติดตั้งแอร์</h1>
+    <p>อัตราค่าติดตั้งมาตรฐานตามขนาดและประเภทของเครื่องปรับอากาศ ราคารวมอุปกรณ์ติดตั้งพื้นฐานแล้ว</p>
+  </div>
+</section>
+
+<section class="sec">
+
+  <div class="ptabs">
+    <a href="/pricing-install" class="on"><iconify-icon icon="mdi:air-conditioner"></iconify-icon> ค่าบริการติดตั้งแอร์</a>
+    <a href="/pricing-clean"><iconify-icon icon="mdi:air-filter"></iconify-icon> ค่าบริการล้างแอร์</a>
+  </div>
+
+  <table class="ptable">
+    <thead><tr><th>ประเภทแอร์</th><th>ขนาดทำความเย็น</th><th>ค่าติดตั้งเริ่มต้น</th></tr></thead>
+    <tbody>
+      <% pricing.rows.forEach(r=>{ %><tr><td><%= r[0] %></td><td><%= r[1] %></td><td><%= r[2] %></td></tr><% }) %>
+    </tbody>
+  </table>
+
+  <div class="pboxes">
+    <div class="fw-card" style="background:linear-gradient(160deg,var(--pine-d),var(--pine-l))">
+      <div class="wm">✓</div>
+      <h4><iconify-icon icon="mdi:check-decagram-outline"></iconify-icon> ค่าติดตั้งมาตรฐานรวมแล้ว</h4>
+      <ul><% pricing.included.forEach(x=>{ %><li><iconify-icon icon="mdi:check"></iconify-icon><span><%= x %></span></li><% }) %></ul>
+    </div>
+    <div class="fw-card" style="background:linear-gradient(160deg,#0E4D6B,#3DDBD9)">
+      <div class="wm">+</div>
+      <h4><iconify-icon icon="mdi:plus-circle-outline"></iconify-icon> ค่าใช้จ่ายเพิ่มเติม (ถ้ามี)</h4>
+      <ul><% pricing.extra.forEach(x=>{ %><li><iconify-icon icon="mdi:plus"></iconify-icon><span><%= x %></span></li><% }) %></ul>
+    </div>
+  </div>
+
+  <div class="pnote">
+    <iconify-icon icon="mdi:information-outline"></iconify-icon>
+    <span>ราคาข้างต้นเป็นตัวอย่างเบื้องต้น ค่าบริการจริงขึ้นอยู่กับสภาพหน้างานและระยะเดินท่อ กรุณาติดต่อเพื่อให้ทีมงานเข้าประเมินและเสนอราคาโดยไม่มีค่าใช้จ่าย</span>
+  </div>
+
+  <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
+    <a class="btn am" href="/contact"><iconify-icon icon="mdi:calendar-check-outline"></iconify-icon> นัดหมายประเมินหน้างาน</a>
+    <a class="btn ln" href="/pricing-clean">ดูค่าบริการล้างแอร์ <iconify-icon icon="mdi:arrow-right"></iconify-icon></a>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

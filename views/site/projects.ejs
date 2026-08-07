@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/site-head',{title:'ผลงานของเรา', desc:'ผลงานติดตั้งและดูแลรักษาเครื่องปรับอากาศ อาคารสำนักงาน ร้านค้า โรงงาน และโรงแรม ในเขตกรุงเทพฯ และปริมณฑล'}) %></head>
+<body>
+<%- include('../partials/site-header') %>
+<section class="page-hero">
+  <div class="sec" style="padding:0">
+    <div class="crumb2"><a href="/">หน้าแรก</a> / <b>ผลงานของเรา</b></div>
+    <span class="eyebrow-dot">Selected Works</span>
+    <h1>ผลงานติดตั้งที่ผ่านมา</h1>
+    <p>ตัวอย่างงานติดตั้งและงานดูแลรักษาแอร์ที่ส่งมอบให้ลูกค้าในเขตกรุงเทพฯ และปริมณฑล</p>
+  </div>
+</section>
+
+<section class="sec">
+
+  <form class="srch" method="get" action="/projects">
+    <div class="inpw">
+      <iconify-icon icon="mdi:magnify"></iconify-icon>
+      <input name="q" value="<%= q %>" placeholder="ค้นหาผลงาน เช่น อาคารสำนักงาน โรงงาน">
+    </div>
+    <button class="btn nv">ค้นหา</button>
+  </form>
+
+  <div class="g3">
+    <% projects.forEach(p=>{ %>
+    <a class="card" href="/projects/<%= p.id %>">
+      <div class="ph nv h180"><% if(p.image){ %><img src="<%= p.image %>" alt="<%= p.title %>" onerror="this.style.display='none'"><% } else { %><iconify-icon class="phicon" icon="mdi:office-building-outline"></iconify-icon><% } %></div>
+      <div class="bd">
+        <span class="tag gy"><iconify-icon icon="mdi:map-marker-outline"></iconify-icon> <%= p.place || p.category %> · <%= p.year %></span>
+        <h3 style="margin-top:8px"><%= p.title %></h3>
+        <p><%= p.category %></p>
+      </div>
+    </a>
+    <% }) %>
+    <% if(!projects.length){ %><p style="color:var(--mut)">ไม่พบผลงานที่ค้นหา</p><% } %>
+  </div>
+</section>
+
+<%- include('../partials/site-footer') %>
+</body>
+</html>

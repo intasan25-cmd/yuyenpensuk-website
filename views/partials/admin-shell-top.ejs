@@ -1,0 +1,32 @@
+<aside class="cside">
+  <div class="lg">
+    <% if (company.logo) { %><img src="<%= company.logo %>" class="lg-img-admin" alt="โลโก้"><% } else { %><span class="mk">SY</span><% } %>
+    อยู่เย็นเป็นสุข CMS
+  </div>
+  <a href="/admin" class="<%= page==='dash'?'act':'' %>"><i><iconify-icon icon="mdi:view-dashboard-outline"></iconify-icon></i>แดชบอร์ด</a>
+  <a href="/admin/company" class="<%= page==='company'?'act':'' %>"><i><iconify-icon icon="mdi:office-building-outline"></iconify-icon></i>ข้อมูลบริษัท</a>
+  <a href="/admin/banners" class="<%= page==='banners'?'act':'' %>"><i><iconify-icon icon="mdi:image-outline"></iconify-icon></i>แบนเนอร์</a>
+  <a href="/admin/services" class="<%= page==='services'?'act':'' %>"><i><iconify-icon icon="mdi:cog-outline"></iconify-icon></i>บริการ</a>
+  <a href="/admin/products" class="<%= page==='products'?'act':'' %>"><i><iconify-icon icon="mdi:package-variant-closed"></iconify-icon></i>สินค้า</a>
+  <a href="/admin/pricing" class="<%= page==='pricing'?'act':'' %>"><i><iconify-icon icon="mdi:currency-usd"></iconify-icon></i>ค่าบริการ</a>
+  <a href="/admin/payment" class="<%= page==='payment'?'act':'' %>"><i><iconify-icon icon="mdi:credit-card-outline"></iconify-icon></i>การชำระเงิน</a>
+  <a href="/admin/projects" class="<%= page==='projects'?'act':'' %>"><i><iconify-icon icon="mdi:crane"></iconify-icon></i>ผลงาน</a>
+  <a href="/admin/news" class="<%= page==='news'?'act':'' %>"><i><iconify-icon icon="mdi:newspaper-variant-outline"></iconify-icon></i>ข่าวสาร</a>
+  <% if (me.role === 'superadmin') { %>
+  <a href="/admin/admins" class="<%= page==='admins'?'act':'' %>"><i><iconify-icon icon="mdi:account-group-outline"></iconify-icon></i>ผู้ดูแลระบบ</a>
+  <% } %>
+  <a href="/admin/profile" class="<%= page==='profile'?'act':'' %>"><i><iconify-icon icon="mdi:account-outline"></iconify-icon></i>โปรไฟล์</a>
+  <a class="out" href="/admin/logout"><i><iconify-icon icon="mdi:logout"></iconify-icon></i>ออกจากระบบ</a>
+</aside>
+<div class="cmain">
+  <div class="ctop">
+    <h2><%= heading %></h2>
+    <div class="me">
+      <span><%= me.name %> · <%= me.role === 'superadmin' ? 'ผู้ดูแลสูงสุด' : 'ผู้แก้ไขเนื้อหา' %></span>
+      <a class="av" href="/admin/profile" title="โปรไฟล์"><%= me.name.slice(0,1) %></a>
+    </div>
+  </div>
+  <div class="cbody">
+    <% if (typeof err !== 'undefined' && err) { %>
+    <div class="err-note"><iconify-icon icon="mdi:alert-circle-outline"></iconify-icon> <%= err %></div>
+    <% } %>
