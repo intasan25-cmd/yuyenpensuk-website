@@ -86,17 +86,36 @@ npm run start:admin
 
 ## การนำขึ้นออนไลน์ (Deploy)
 
+> **สำคัญ:** ตอนพัฒนาที่เครื่องตัวเอง ใช้ `npm start` + `npm run start:admin` แยกกันตามปกติ (ไฟล์
+> `server.js` / `admin-server.js`) แต่ตอน **deploy ขึ้น hosting จริง ให้ใช้ `npm run start:deploy`**
+> (ไฟล์ `deploy-server.js`) แทน — เพราะโฮสติ้งส่วนใหญ่ (Render, Railway) ให้ดิสก์เก็บข้อมูลถาวร
+> ได้แค่ 1 ก้อนต่อ 1 เซอร์วิส ถ้าแยก deploy เว็บหลักกับแอดมินเป็นคนละเซอร์วิส ข้อมูลจะไม่ sync กัน
+> (แก้ในแอดมินแล้วเว็บจริงไม่อัปเดต) — `deploy-server.js` รวมทั้งสองแอปไว้ในโปรเซสเดียว ใช้ดิสก์
+> เดียวกันจริง ๆ แต่ยัง **แยกกันสนิทเหมือนเดิมทุกประการ** โดยใช้ชื่อโดเมนเป็นตัวแบ่งแทน:
+> - `www.yourdomain.com` (หรือโดเมนหลัก) → เว็บหลัก
+> - `admin.yourdomain.com` → ระบบแอดมิน (คนละ session cookie, คนละ URL, ไม่มีลิงก์เชื่อมกันในหน้าเว็บ)
+
 ### แบบง่ายสุด: Render.com
-1. อัปโหลดโปรเจกต์ขึ้น GitHub (private repo ได้)
+1. อัปโหลดโปรเจกต์ขึ้น GitHub (private repo ได้) — ทำไปแล้ว ✅
 2. Render → New → Web Service → เชื่อม repo
-3. Build Command: `npm install` · Start Command: `npm start`
-4. เพิ่ม **Disk**: mount path `/data` (ขนาด 1GB พอ)
+3. Build Command: `npm install` · **Start Command: `npm run start:deploy`**
+4. เพิ่ม **Disk**: mount path `/data` (ขนาด 1GB พอ) — ต้องใช้แพลน Starter ขึ้นไป (~$7/เดือน) เพราะ
+   แพลนฟรีของ Render ไม่มีดิสก์ถาวร (ข้อมูลจะหายทุกครั้งที่เซิร์ฟเวอร์รีสตาร์ต)
 5. ตั้ง Environment Variables:
    - `DATA_DIR` = `/data`
    - `UPLOAD_DIR` = `/data/uploads`
-   - `SESSION_SECRET` = ข้อความสุ่มยาว ๆ
+   - `SESSION_SECRET` = ค่าสุ่มยาว ๆ (ดูวิธีสร้างด้านล่าง)
+   - `NODE_ENV` = `production`
    - `SITE_URL` = โดเมนจริง เช่น `https://www.yuyenpensuk.co.th`
-6. ผูกโดเมน: Settings → Custom Domain แล้วชี้ DNS ตามที่ระบบบอก (HTTPS ได้อัตโนมัติ)
+6. ผูกโดเมน 2 ชื่อเข้ากับ**เซอร์วิสเดียวกันนี้**ทั้งคู่ (Settings → Custom Domain):
+   - `www.yuyenpensuk.co.th` (และ/หรือ `yuyenpensuk.co.th`)
+   - `admin.yuyenpensuk.co.th`
+   Render จะออก SSL/HTTPS ให้อัตโนมัติทั้งสองโดเมน
+7. ที่ผู้ให้บริการโดเมน (เช่น GoDaddy, Cloudflare) ตั้งค่า DNS ตามที่ Render บอกไว้สำหรับทั้ง 2 โดเมนย่อย
+
+ทดสอบก่อน deploy จริงได้ที่เครื่องตัวเองด้วยคำสั่ง `FORCE_APP=admin npm run start:deploy` (จะเปิด
+แอดมินที่ localhost:3000 ตรง ๆ โดยไม่ต้องตั้งค่าโดเมนย่อยก่อน) หรือรันเฉย ๆ `npm run start:deploy`
+เพื่อดูเว็บหลัก
 
 ## ความปลอดภัย — เช็คลิสต์ก่อน deploy จริง
 
@@ -112,7 +131,13 @@ npm run start:admin
 4. Deploy หลัง HTTPS เสมอ (Render/Railway ให้ฟรีอัตโนมัติ) — ห้ามใช้ HTTP ล้วนกับระบบแอดมิน
 
 ### แบบ VPS (DigitalOcean / โฮสต์ไทย)
-ติดตั้ง Node 18+, `npm install`, รันด้วย PM2 (`pm2 start server.js`), ตั้ง Nginx reverse proxy + Let's Encrypt SSL
+บน VPS ไม่มีข้อจำกัดเรื่องดิสก์ต่อเซอร์วิสเหมือน Render/Railway (เป็นเซิร์ฟเวอร์ทั้งเครื่องของเราเอง)
+เลยใช้ `server.js` + `admin-server.js` แยกกันแบบเดิมได้เลย ไม่ต้องใช้ `deploy-server.js`:
+1. ติดตั้ง Node 18+, `npm install`
+2. รันด้วย PM2 ทั้งสองโปรเซส: `pm2 start server.js --name site` และ `pm2 start admin-server.js --name admin`
+3. ตั้ง Nginx reverse proxy: โดเมนหลัก → พอร์ต 3000 (site), `admin.` โดเมน → พอร์ต 4000 (admin)
+4. ออก SSL ด้วย Let's Encrypt (`certbot`) ให้ทั้งสองโดเมนย่อย
+
 
 ## SEO ที่ติดตั้งไว้แล้วในระบบ
 - Title + Meta Description แยกรายหน้า ครบทั้ง 11 หน้า
